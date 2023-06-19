@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.diffplug.spotless" version "6.19.0"
 }
 
 repositories {
@@ -15,5 +16,11 @@ test {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat("1.17.0")
     }
 }
