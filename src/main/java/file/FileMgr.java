@@ -18,7 +18,7 @@ public class FileMgr {
     this.blockSize = blockSize;
     isNew = !dbDirectory.exists();
 
-    // 新規ならディレクトリごと作る
+    // 新規ならディレクトリを作る
     if (isNew) {
       dbDirectory.mkdirs();
     }
@@ -26,7 +26,7 @@ public class FileMgr {
     for (String filename : Objects.requireNonNull(dbDirectory.list())) {
       // temporaryテーブルは初期化時に削除する
       if (filename.startsWith("temp")) {
-        new File(dbDirectory, filename).delete();
+        deleteFile(filename);
       }
     }
   }
@@ -93,5 +93,12 @@ public class FileMgr {
       openFiles.put(filename, f);
     }
     return f;
+  }
+
+  /**
+   * this is for testing
+   */
+  public void deleteFile(String filename) {
+    new File(dbDirectory, filename).delete();
   }
 }

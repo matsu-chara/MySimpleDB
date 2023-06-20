@@ -16,3 +16,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# for test
+filetest
