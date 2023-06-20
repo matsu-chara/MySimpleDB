@@ -95,9 +95,7 @@ public class FileMgr {
     return f;
   }
 
-  /**
-   * this is for testing
-   */
+  /** this is for testing */
   public void deleteFile(String filename) {
     new File(dbDirectory, filename).delete();
   }
