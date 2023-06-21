@@ -32,7 +32,9 @@ public class LogIterator implements Iterator<byte[]> {
       blk = new BlockId(blk.filename(), blk.number() - 1); // blockNumは1ずつ増えていくので逆順にたどるために1ずつ減らしている
       moveToBlock(blk);
     }
-    byte[] rec = p.getBytes(currentpos); // レコードのlength(Int) + contentが読み込まれるがdecodeせずに返す(Pageに変換できるのでPageにやらせればよい）
+    byte[] rec =
+        p.getBytes(
+            currentpos); // レコードのlength(Int) + contentが読み込まれるがdecodeせずに返す(Pageに変換できるのでPageにやらせればよい）
     currentpos += Integer.BYTES + rec.length;
     return rec;
   }

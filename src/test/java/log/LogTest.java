@@ -35,22 +35,22 @@ class LogTest {
     List<TestLogRecord> result1 = readLogRecords(); // read時にflushが行われる
     assertIterableEquals(
         List.of(
-                new TestLogRecord("record3", 103),
-                new TestLogRecord("record2", 102),
-                new TestLogRecord("record1", 101)),
+            new TestLogRecord("record3", 103),
+            new TestLogRecord("record2", 102),
+            new TestLogRecord("record1", 101)),
         result1);
 
     createRecords(4, 7);
     List<TestLogRecord> result2 = readLogRecords();
     assertIterableEquals(
         List.of(
-                new TestLogRecord("record7", 107),
-                new TestLogRecord("record6", 106),
-                new TestLogRecord("record5", 105),
-                new TestLogRecord("record4", 104),
-                new TestLogRecord("record3", 103),
-                new TestLogRecord("record2", 102),
-                new TestLogRecord("record1", 101)),
+            new TestLogRecord("record7", 107),
+            new TestLogRecord("record6", 106),
+            new TestLogRecord("record5", 105),
+            new TestLogRecord("record4", 104),
+            new TestLogRecord("record3", 103),
+            new TestLogRecord("record2", 102),
+            new TestLogRecord("record1", 101)),
         result2);
   }
 
