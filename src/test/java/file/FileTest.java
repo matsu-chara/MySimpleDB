@@ -13,7 +13,7 @@ public class FileTest {
 
   @BeforeEach
   void setup() {
-    fm = new FileMgr(new File("filetest"), 400);
+    fm = new FileMgr(new File("test_file"), 400);
   }
 
   @AfterEach
@@ -23,7 +23,6 @@ public class FileTest {
 
   @Test
   void writeAndRead() {
-    FileMgr fm = new FileMgr(new File("filetest"), 400);
     fm.deleteFile(testFileName);
 
     BlockId blk = new BlockId(testFileName, 2);

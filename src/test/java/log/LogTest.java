@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 class LogTest {
   private FileMgr fm;
   private LogMgr lm;
-  String logFilename = "simpledb.log";
+  String logFilename = "simpledb_log_mgr_test.log";
 
   @BeforeEach
   void setup() {
-    fm = new FileMgr(new File("logtest"), 400);
+    fm = new FileMgr(new File("test_log"), 400);
     lm = new LogMgr(fm, logFilename);
   }
 

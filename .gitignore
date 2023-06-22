@@ -20,6 +20,5 @@ gradle-app.setting
 # for main
 studentdb
 
-# for test
-filetest
-logtest
+# for test file
+test_*
