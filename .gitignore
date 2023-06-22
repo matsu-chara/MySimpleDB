@@ -17,6 +17,9 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
+# for main
+studentdb
+
 # for test
 filetest
 logtest
