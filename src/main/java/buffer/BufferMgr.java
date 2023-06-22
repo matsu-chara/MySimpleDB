@@ -57,11 +57,11 @@ public class BufferMgr {
     try {
       long timestamp = System.currentTimeMillis();
       Buffer buff = tryToPin(blk);
-      while(buff == null && !waitingTooLong(timestamp)) {
+      while (buff == null && !waitingTooLong(timestamp)) {
         wait(maxTime); // unpinでnotifyAllされる
         buff = tryToPin(blk);
       }
-      if(buff == null) {
+      if (buff == null) {
         throw new BufferAbortException();
       }
       return buff;

@@ -1,9 +1,8 @@
 package server;
 
 import file.FileMgr;
-import log.LogMgr;
-
 import java.io.File;
+import log.LogMgr;
 
 public class SimpleDB {
   public static int BLOCK_SIZE = 400;
