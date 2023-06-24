@@ -1,12 +1,11 @@
 package buffer;
 
-import file.BlockId;
-import file.FileMgr;
-import java.io.File;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import file.BlockId;
+import file.FileMgr;
 import file.Page;
+import java.io.File;
 import log.LogMgr;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +35,7 @@ class BufferFileTest {
     int pos1 = 88;
 
     Buffer b1 = bm.pin(blk);
-    Page   p1 = b1.contents();
+    Page p1 = b1.contents();
     p1.setString(pos1, "abcdefghijklm");
     int size = Page.maxLength("abcdefghijklm".length());
 
@@ -48,7 +47,7 @@ class BufferFileTest {
     Buffer b2 = bm.pin(blk);
     Page p2 = b2.contents();
     assertEquals(345, p2.getInt(pos2));
-    assertEquals("abcdefghijklm",p2.getString(pos1));
+    assertEquals("abcdefghijklm", p2.getString(pos1));
     bm.unpin(b2);
   }
 }

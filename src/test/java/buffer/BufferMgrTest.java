@@ -44,12 +44,14 @@ class BufferMgrTest {
 
     assertEquals(0, bm.available());
 
-    assertThrows(BufferAbortException.class, () -> {
-      buff[5] = bm.pin(new BlockId("testfile", 3));  // will not work; no buffers left
-    });
+    assertThrows(
+        BufferAbortException.class,
+        () -> {
+          buff[5] = bm.pin(new BlockId("testfile", 3)); // will not work; no buffers left
+        });
     bm.unpin(buff[2]);
     buff[2] = null;
 
-    buff[5] = bm.pin(new BlockId("testfile", 3));  // now this works
+    buff[5] = bm.pin(new BlockId("testfile", 3)); // now this works
   }
 }
