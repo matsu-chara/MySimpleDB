@@ -40,6 +40,7 @@ class BufferTest {
     assertEquals(1, n + 1);
     bm.unpin(buff1);
 
+    // buff sizeが3なのでどこかでbuff1がflushされる
     Buffer buff2 = bm.pin(new BlockId("testfile", 2));
     Buffer buff3 = bm.pin(new BlockId("testfile", 3));
     Buffer buff4 = bm.pin(new BlockId("testfile", 4));
