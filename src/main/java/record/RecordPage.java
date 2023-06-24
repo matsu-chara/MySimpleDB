@@ -70,7 +70,7 @@ public class RecordPage {
   public int insertAfter(int slot) {
     var newslot = searchAfter(slot, EMPTY);
     if (newslot >= 0) {
-      setFlag(slot, USED);
+      setFlag(newslot, USED);
     }
     return newslot;
   }
@@ -89,6 +89,7 @@ public class RecordPage {
       if (tx.getInt(blk, offset(slot)) == flag) {
         return slot;
       }
+      slot++;
     }
     return -1;
   }
