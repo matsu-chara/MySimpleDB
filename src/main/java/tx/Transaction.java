@@ -3,7 +3,7 @@ package tx;
 import file.BlockId;
 
 public class Transaction {
-  public void pin() {}
+  public void pin(BlockId blk) {}
 
   public void unpin(BlockId blk) {}
 
