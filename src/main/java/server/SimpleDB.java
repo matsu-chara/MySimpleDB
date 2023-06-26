@@ -2,10 +2,9 @@ package server;
 
 import buffer.BufferMgr;
 import file.FileMgr;
+import java.io.File;
 import log.LogMgr;
 import tx.Transaction;
-
-import java.io.File;
 
 public class SimpleDB {
   public static int BLOCK_SIZE = 400;

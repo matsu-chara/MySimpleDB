@@ -37,9 +37,7 @@ public class Transaction {
     recoveryMgr.recover();
   }
 
-  public void pin(BlockId blk) {
-
-  }
+  public void pin(BlockId blk) {}
 
   public void unpin(BlockId blk) {}
 
@@ -47,7 +45,7 @@ public class Transaction {
 
   public void setString(BlockId blk, int offset, String val, boolean okToLog) {}
 
-  private synchronized static int nextTxNumber() {
+  private static synchronized int nextTxNumber() {
     nextTxNum++;
     return nextTxNum;
   }
