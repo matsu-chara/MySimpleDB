@@ -23,7 +23,9 @@ public class BufferList {
 
   void pin(BlockId blk) {
     Buffer buff = bm.pin(blk);
-    buffers.put(blk, buff);   // buffersは現在pinしているbufferへの参照を持つ。(Transactionから使われるので暗黙に現在のトランザクションでpinされているbuffer一覧となる）
+    buffers.put(
+        blk,
+        buff); // buffersは現在pinしているbufferへの参照を持つ。(Transactionから使われるので暗黙に現在のトランザクションでpinされているbuffer一覧となる）
     pins.add(blk);
   }
 
