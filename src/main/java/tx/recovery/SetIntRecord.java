@@ -71,7 +71,7 @@ public class SetIntRecord implements LogRecord {
     byte[] rec = new byte[reclen];
     Page p = new Page(rec);
 
-    p.setInt(0, SETSTRING);
+    p.setInt(0, SETINT);
     p.setInt(tpos, txnum);
     p.setString(fpos, blk.filename());
     p.setInt(bpos, blk.number());

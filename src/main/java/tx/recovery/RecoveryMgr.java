@@ -49,8 +49,7 @@ public class RecoveryMgr {
   }
 
   // newvalは今回の実装だと利用してないのでサンプルコードにはあるけど消してみた
-  // ただsetIntとsetStringを正確に呼び分けないとランタイムエラーになるので悪手だだったかもsrc/main/java/tx/recovery/RecoveryMgr.java
-
+  // ただsetIntとsetStringを正確に呼び分けないとランタイムエラーになるので悪手だったかもsrc/main/java/tx/recovery/RecoveryMgr.java
   public int setInt(Buffer buff, int offset) {
     int oldval = buff.contents().getInt(offset);
     BlockId blk = buff.block();

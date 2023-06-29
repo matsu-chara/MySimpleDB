@@ -28,6 +28,7 @@ public class Transaction {
     this.recoveryMgr = new RecoveryMgr(lm, bm, this, txnum);
     this.concurMgr = new ConcurrencyMgr();
     this.mybuffers = new BufferList(bm);
+    System.out.println("Transaction: " + txnum + " started."); // log目的で残しておく
   }
 
   public void commit() {
@@ -41,7 +42,7 @@ public class Transaction {
     recoveryMgr.rollback();
     concurMgr.release();
     mybuffers.unpinAll();
-    System.out.println("Transaction: " + txnum + " rollback."); // log目的で残しておく
+    System.out.println("Transaction: " + txnum + " rollbacked."); // log目的で残しておく
   }
 
   public void recover() {
