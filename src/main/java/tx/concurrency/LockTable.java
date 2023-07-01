@@ -18,7 +18,7 @@ public class LockTable {
     this.maxTime = maxTime;
   }
 
-  synchronized void slock(BlockId blk) {
+  synchronized void sLock(BlockId blk) {
     try {
       long starttime = System.currentTimeMillis();
       while (hasXLock(blk) && !waitingTooLong(starttime)) {
@@ -34,7 +34,7 @@ public class LockTable {
     }
   }
 
-  synchronized void xlock(BlockId blk) {
+  synchronized void xLock(BlockId blk) {
     try {
       long starttime = System.currentTimeMillis();
       while (hasOtherSLocks(blk) && !waitingTooLong(starttime)) {

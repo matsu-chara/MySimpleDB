@@ -60,19 +60,19 @@ public class Transaction {
   }
 
   public int getInt(BlockId blk, int offset) {
-    concurMgr.slock(blk);
+    concurMgr.sLock(blk);
     Buffer buff = mybuffers.getBuffer(blk);
     return buff.contents().getInt(offset);
   }
 
   public String getString(BlockId blk, int offset) {
-    concurMgr.slock(blk);
+    concurMgr.sLock(blk);
     Buffer buff = mybuffers.getBuffer(blk);
     return buff.contents().getString(offset);
   }
 
   public void setInt(BlockId blk, int offset, int val, boolean okToLog) {
-    concurMgr.xlock(blk);
+    concurMgr.xLock(blk);
     Buffer buff = mybuffers.getBuffer(blk);
     int lsn = -1;
     if (okToLog) {
@@ -83,7 +83,7 @@ public class Transaction {
   }
 
   public void setString(BlockId blk, int offset, String val, boolean okToLog) {
-    concurMgr.xlock(blk);
+    concurMgr.xLock(blk);
     Buffer buff = mybuffers.getBuffer(blk);
     int lsn = -1;
     if (okToLog) {
@@ -95,13 +95,13 @@ public class Transaction {
 
   public int size(String filename) {
     BlockId dummyblk = new BlockId(filename, END_OF_FILE);
-    concurMgr.slock(dummyblk);
+    concurMgr.sLock(dummyblk);
     return fm.length(filename);
   }
 
   public BlockId append(String filename) {
     BlockId dummyblk = new BlockId(filename, END_OF_FILE);
-    concurMgr.slock(dummyblk);
+    concurMgr.sLock(dummyblk);
     return fm.append(filename);
   }
 
@@ -116,5 +116,10 @@ public class Transaction {
   private static synchronized int nextTxNumber() {
     nextTxNum++;
     return nextTxNum;
+  }
+
+  // visible for test
+  public int txnum() {
+    return txnum;
   }
 }

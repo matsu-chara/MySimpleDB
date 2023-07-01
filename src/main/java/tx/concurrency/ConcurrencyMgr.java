@@ -9,17 +9,17 @@ public class ConcurrencyMgr {
 
   private Map<BlockId, String> locks = new HashMap<>();
 
-  public void slock(BlockId blk) {
+  public void sLock(BlockId blk) {
     if (locks.get(blk) == null) {
-      lockTbl.slock(blk);
+      lockTbl.sLock(blk);
       locks.put(blk, "S");
     }
   }
 
-  public void xlock(BlockId blk) {
-    if (!hasXlock(blk)) {
-      slock(blk); // shared lockをとってからexclusive lockにupgradeする
-      lockTbl.xlock(blk);
+  public void xLock(BlockId blk) {
+    if (!hasXLock(blk)) {
+      sLock(blk); // shared lockをとってからexclusive lockにupgradeする
+      lockTbl.xLock(blk);
       locks.put(blk, "X");
     }
   }
@@ -31,7 +31,7 @@ public class ConcurrencyMgr {
     locks.clear();
   }
 
-  private boolean hasXlock(BlockId blk) {
+  private boolean hasXLock(BlockId blk) {
     String lockType = locks.get(blk);
     return lockType != null && lockType.equals("X");
   }

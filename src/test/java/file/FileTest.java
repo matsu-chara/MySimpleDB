@@ -23,8 +23,6 @@ public class FileTest {
 
   @Test
   void writeAndRead() {
-    fm.deleteFile(testFileName);
-
     BlockId blk = new BlockId(testFileName, 2);
     Page p1 = new Page(fm.blockSize());
     int pos1 = 88;

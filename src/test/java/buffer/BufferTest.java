@@ -37,7 +37,7 @@ class BufferTest {
     int n = p.getInt(80);
     p.setInt(80, n + 1);
     buff1.setModified(1, 0);
-    assertEquals(1, n + 1);
+    assertEquals(1, p.getInt(80));
     bm.unpin(buff1);
 
     // buff sizeが3なのでどこかでbuff1がflushされる

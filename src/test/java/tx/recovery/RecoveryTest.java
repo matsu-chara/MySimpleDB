@@ -88,21 +88,19 @@ class RecoveryTest {
     assertEquals(expected2, actual2);
     tx3.commit();
 
-    modify();
+    Transaction tx5 = modify();
 
     tx3.pin(blk0);
-    TestRecord expected3 =
-        new TestRecord( // rollback済みなので変更されない
-            Arrays.asList(0, 0, 0, 0, 0, 0), Arrays.asList("abc"));
+    TestRecord expected3 = expected1; // tx4はrollback済みなので変更されない
     TestRecord actual3 =
         new TestRecord(
             Arrays.asList(
-                tx3.getInt(blk0, Integer.BYTES * 0 + 100),
-                tx3.getInt(blk0, Integer.BYTES * 1 + 100),
-                tx3.getInt(blk0, Integer.BYTES * 2 + 100),
-                tx3.getInt(blk0, Integer.BYTES * 3 + 100),
-                tx3.getInt(blk0, Integer.BYTES * 4 + 100),
-                tx3.getInt(blk0, Integer.BYTES * 5 + 100)),
+                tx3.getInt(blk0, Integer.BYTES * 0),
+                tx3.getInt(blk0, Integer.BYTES * 1),
+                tx3.getInt(blk0, Integer.BYTES * 2),
+                tx3.getInt(blk0, Integer.BYTES * 3),
+                tx3.getInt(blk0, Integer.BYTES * 4),
+                tx3.getInt(blk0, Integer.BYTES * 5)),
             Arrays.asList(tx3.getString(blk0, 30)));
     assertEquals(expected3, actual3);
 
@@ -129,6 +127,9 @@ class RecoveryTest {
                 p.getInt(Integer.BYTES * 5)),
             Arrays.asList(p.getString(30)));
     assertEquals(expected4, actual4);
+
+    tx5.commit();
+    tx3.commit();
   }
 
   private void initialize() {
@@ -150,7 +151,7 @@ class RecoveryTest {
     tx2.commit();
   }
 
-  private void modify() {
+  private Transaction modify() {
     Transaction tx4 = db.newTx();
     Transaction tx5 = db.newTx();
 
@@ -165,15 +166,10 @@ class RecoveryTest {
     tx4.setString(blk0, 30, "utw", true);
     tx5.setString(blk1, 30, "xyz", true);
 
-    bm.flushAll(4);
-    bm.flushAll(5);
-
     tx4.rollback();
-  }
+    bm.flushAll(tx5.txnum()); // tx5の内容が見えるようにflushしておく
 
-  private void recover() {
-    Transaction tx = db.newTx();
-    tx.recover();
+    return tx5; // 他のテストに影響が出るのでtx5を後でcommitするために返却する
   }
 
   private static class TestRecord {
