@@ -15,13 +15,13 @@ import record.Schema;
 import record.TableScan;
 import server.SimpleDB;
 
-class IndexSelectTest {
+class HashIndexSelectTest {
   private SimpleDB db;
   private MetadataMgr mdm;
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_scan1", 400, 8);
+    db = new SimpleDB("test_index_select_hash", 400, 8, IndexInfo.IndexMode.Hash);
     mdm = db.mdMgr();
 
     var tx = db.newTx();

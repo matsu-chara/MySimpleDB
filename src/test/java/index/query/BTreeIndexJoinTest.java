@@ -14,13 +14,13 @@ import record.Schema;
 import record.TableScan;
 import server.SimpleDB;
 
-class IndexJoinTest {
+class BTreeIndexJoinTest {
   private SimpleDB db;
   private MetadataMgr mdm;
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_scan1", 400, 8);
+    db = new SimpleDB("test_index_join_btree", 400, 8, IndexInfo.IndexMode.BTree);
     mdm = db.mdMgr();
 
     var tx = db.newTx();
