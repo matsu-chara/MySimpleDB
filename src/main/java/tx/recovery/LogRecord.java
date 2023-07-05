@@ -13,22 +13,15 @@ public interface LogRecord {
   void undo(Transaction tx);
 
   static LogRecord createLogRecord(byte[] bytes) {
-    Page p = new Page(bytes);
-    switch (p.getInt(0)) {
-      case CHECKPOINT:
-        return new CheckpointRecord();
-      case START:
-        return new StartRecord(p);
-      case COMMIT:
-        return new CommitRecord(p);
-      case ROLLBACK:
-        return new RollbackRecord(p);
-      case SETINT:
-        return new SetIntRecord(p);
-      case SETSTRING:
-        return new SetStringRecord(p);
-      default:
-        return null;
-    }
+    var p = new Page(bytes);
+    return switch (p.getInt(0)) {
+      case CHECKPOINT -> new CheckpointRecord();
+      case START -> new StartRecord(p);
+      case COMMIT -> new CommitRecord(p);
+      case ROLLBACK -> new RollbackRecord(p);
+      case SETINT -> new SetIntRecord(p);
+      case SETSTRING -> new SetStringRecord(p);
+      default -> null;
+    };
   }
 }

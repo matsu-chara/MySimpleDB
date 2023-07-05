@@ -1,6 +1,5 @@
 package tx;
 
-import buffer.Buffer;
 import buffer.BufferMgr;
 import file.BlockId;
 import file.FileMgr;
@@ -61,20 +60,20 @@ public class Transaction {
 
   public int getInt(BlockId blk, int offset) {
     concurMgr.sLock(blk);
-    Buffer buff = mybuffers.getBuffer(blk);
+    var buff = mybuffers.getBuffer(blk);
     return buff.contents().getInt(offset);
   }
 
   public String getString(BlockId blk, int offset) {
     concurMgr.sLock(blk);
-    Buffer buff = mybuffers.getBuffer(blk);
+    var buff = mybuffers.getBuffer(blk);
     return buff.contents().getString(offset);
   }
 
   public void setInt(BlockId blk, int offset, int val, boolean okToLog) {
     concurMgr.xLock(blk);
-    Buffer buff = mybuffers.getBuffer(blk);
-    int lsn = -1;
+    var buff = mybuffers.getBuffer(blk);
+    var lsn = -1;
     if (okToLog) {
       lsn = recoveryMgr.setInt(buff, offset);
     }
@@ -84,8 +83,8 @@ public class Transaction {
 
   public void setString(BlockId blk, int offset, String val, boolean okToLog) {
     concurMgr.xLock(blk);
-    Buffer buff = mybuffers.getBuffer(blk);
-    int lsn = -1;
+    var buff = mybuffers.getBuffer(blk);
+    var lsn = -1;
     if (okToLog) {
       lsn = recoveryMgr.setString(buff, offset);
     }
@@ -94,13 +93,13 @@ public class Transaction {
   }
 
   public int size(String filename) {
-    BlockId dummyblk = new BlockId(filename, END_OF_FILE);
+    var dummyblk = new BlockId(filename, END_OF_FILE);
     concurMgr.sLock(dummyblk);
     return fm.length(filename);
   }
 
   public BlockId append(String filename) {
-    BlockId dummyblk = new BlockId(filename, END_OF_FILE);
+    var dummyblk = new BlockId(filename, END_OF_FILE);
     concurMgr.sLock(dummyblk);
     return fm.append(filename);
   }

@@ -6,7 +6,6 @@ import file.FileMgr;
 import file.Page;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
@@ -32,7 +31,7 @@ class LogTest {
   @Test
   void log() {
     createRecords(1, 3);
-    List<TestLogRecord> result1 = readLogRecords(); // read時にflushが行われる
+    var result1 = readLogRecords(); // read時にflushが行われる
     assertIterableEquals(
         List.of(
             new TestLogRecord("record3", 103),
@@ -41,7 +40,7 @@ class LogTest {
         result1);
 
     createRecords(4, 7);
-    List<TestLogRecord> result2 = readLogRecords();
+    var result2 = readLogRecords();
     assertIterableEquals(
         List.of(
             new TestLogRecord("record7", 107),
@@ -55,31 +54,31 @@ class LogTest {
   }
 
   private List<TestLogRecord> readLogRecords() {
-    Iterator<byte[]> iter = lm.iterator();
+    var iter = lm.iterator();
     List<TestLogRecord> result = new ArrayList<>();
 
     while (iter.hasNext()) {
-      byte[] rec = iter.next();
-      Page p = new Page(rec);
-      String s = p.getString(0);
-      int npos = Page.maxLength(s.length());
-      int n = p.getInt(npos);
+      var rec = iter.next();
+      var p = new Page(rec);
+      var s = p.getString(0);
+      var npos = Page.maxLength(s.length());
+      var n = p.getInt(npos);
       result.add(new TestLogRecord(s, n));
     }
     return List.copyOf(result);
   }
 
   private void createRecords(int start, int end) {
-    for (int i = start; i <= end; i++) {
-      byte[] rec = createLogRecord(new TestLogRecord("record" + i, i + 100));
+    for (var i = start; i <= end; i++) {
+      var rec = createLogRecord(new TestLogRecord("record" + i, i + 100));
       lm.append(rec);
     }
   }
 
   private byte[] createLogRecord(TestLogRecord r) {
-    int npos = Page.maxLength(r.s.length());
-    byte[] b = new byte[npos + Integer.BYTES];
-    Page p = new Page((b));
+    var npos = Page.maxLength(r.s.length());
+    var b = new byte[npos + Integer.BYTES];
+    var p = new Page((b));
     p.setString(0, r.s);
     p.setInt(npos, r.n);
     return b;
@@ -98,7 +97,7 @@ class LogTest {
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-      TestLogRecord that = (TestLogRecord) o;
+      var that = (TestLogRecord) o;
       return n == that.n && Objects.equals(s, that.s);
     }
 

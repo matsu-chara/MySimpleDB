@@ -17,10 +17,10 @@ public class LogMgr {
   public LogMgr(FileMgr fm, String logfile) {
     this.fm = fm;
     this.logfile = logfile;
-    byte[] b = new byte[fm.blockSize()];
+    var b = new byte[fm.blockSize()];
     logpage = new Page(b);
 
-    int logsize = fm.length(logfile);
+    var logsize = fm.length(logfile);
     if (logsize == 0) {
       currentblk = appendNewBlock();
     } else {
@@ -41,9 +41,9 @@ public class LogMgr {
   }
 
   public synchronized int append(byte[] logrec) {
-    int boundary = logpage.getInt(0); // logPage先頭に書いてあるboundaryを読み込む
-    int recsize = logrec.length;
-    int bytesneeded = recsize + Integer.BYTES;
+    var boundary = logpage.getInt(0); // logPage先頭に書いてあるboundaryを読み込む
+    var recsize = logrec.length;
+    var bytesneeded = recsize + Integer.BYTES;
 
     // logPage内にこのエントリが収まるか判断(Integer.BYTESはboundary保存用の領域分を確保するためにとってある）
     if (boundary - bytesneeded < Integer.BYTES) {
@@ -53,7 +53,7 @@ public class LogMgr {
       currentblk = appendNewBlock();
       boundary = logpage.getInt(0);
     }
-    int recpos = boundary - bytesneeded; // logRecord は Page 末尾から書くことになる（logIterator が逆順にたどるときに便利）
+    var recpos = boundary - bytesneeded; // logRecord は Page 末尾から書くことになる（logIterator が逆順にたどるときに便利）
     logpage.setBytes(recpos, logrec);
     logpage.setInt(0, recpos); // logPage先頭に書いてあるboundaryを新しいものに更新
     latestLSN += 1; // log sequence numberを一つ追加
@@ -61,7 +61,7 @@ public class LogMgr {
   }
 
   private BlockId appendNewBlock() {
-    BlockId blk = fm.append(logfile); // 1ブロック追加
+    var blk = fm.append(logfile); // 1ブロック追加
     logpage.setInt(0, fm.blockSize()); // ブロックサイズを初期boundaryとしてPage先頭に書き込む
     fm.write(blk, logpage); // ファイルにPageを書き込む
     return blk;

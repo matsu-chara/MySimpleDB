@@ -26,8 +26,8 @@ public class CheckpointRecord implements LogRecord {
   }
 
   public static int writeToLog(LogMgr lm) {
-    byte[] rec = new byte[Integer.BYTES];
-    Page p = new Page(rec);
+    var rec = new byte[Integer.BYTES];
+    var p = new Page(rec);
     p.setInt(0, CHECKPOINT);
     return lm.append(rec);
   }

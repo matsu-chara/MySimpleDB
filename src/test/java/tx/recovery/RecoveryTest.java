@@ -40,9 +40,9 @@ class RecoveryTest {
   void test() {
     initialize();
 
-    Transaction tx3 = db.newTx();
+    var tx3 = db.newTx();
     tx3.pin(blk0);
-    TestRecord expected1 =
+    var expected1 =
         new TestRecord(
             Arrays.asList(
                 Integer.BYTES * 0,
@@ -52,7 +52,7 @@ class RecoveryTest {
                 Integer.BYTES * 4,
                 Integer.BYTES * 5),
             Arrays.asList("abc"));
-    TestRecord actual1 =
+    var actual1 =
         new TestRecord(
             Arrays.asList(
                 tx3.getInt(blk0, Integer.BYTES * 0),
@@ -65,7 +65,7 @@ class RecoveryTest {
     assertEquals(expected1, actual1);
 
     tx3.pin(blk1);
-    TestRecord expected2 =
+    var expected2 =
         new TestRecord(
             Arrays.asList(
                 Integer.BYTES * 0,
@@ -75,7 +75,7 @@ class RecoveryTest {
                 Integer.BYTES * 4,
                 Integer.BYTES * 5),
             Arrays.asList("def"));
-    TestRecord actual2 =
+    var actual2 =
         new TestRecord(
             Arrays.asList(
                 tx3.getInt(blk1, Integer.BYTES * 0),
@@ -88,11 +88,11 @@ class RecoveryTest {
     assertEquals(expected2, actual2);
     tx3.commit();
 
-    Transaction tx5 = modify();
+    var tx5 = modify();
 
     tx3.pin(blk0);
-    TestRecord expected3 = expected1; // tx4はrollback済みなので変更されない
-    TestRecord actual3 =
+    var expected3 = expected1; // tx4はrollback済みなので変更されない
+    var actual3 =
         new TestRecord(
             Arrays.asList(
                 tx3.getInt(blk0, Integer.BYTES * 0),
@@ -104,9 +104,9 @@ class RecoveryTest {
             Arrays.asList(tx3.getString(blk0, 30)));
     assertEquals(expected3, actual3);
 
-    Page p = new Page(fm.blockSize());
+    var p = new Page(fm.blockSize());
     fm.read(blk1, p);
-    TestRecord expected4 =
+    var expected4 =
         new TestRecord( // tx5は未コミットだがflushはされてるので読める
             Arrays.asList(
                 Integer.BYTES * 0 + 100,
@@ -116,7 +116,7 @@ class RecoveryTest {
                 Integer.BYTES * 4 + 100,
                 Integer.BYTES * 5 + 100),
             Arrays.asList("xyz"));
-    TestRecord actual4 =
+    var actual4 =
         new TestRecord(
             Arrays.asList(
                 p.getInt(Integer.BYTES * 0),
@@ -133,14 +133,14 @@ class RecoveryTest {
   }
 
   private void initialize() {
-    Transaction tx1 = db.newTx();
-    Transaction tx2 = db.newTx();
+    var tx1 = db.newTx();
+    var tx2 = db.newTx();
 
     tx1.pin(blk0);
     tx2.pin(blk1);
 
-    int pos = 0;
-    for (int i = 0; i < 6; i++) {
+    var pos = 0;
+    for (var i = 0; i < 6; i++) {
       tx1.setInt(blk0, pos, pos, false);
       tx2.setInt(blk1, pos, pos, false);
       pos += Integer.BYTES;
@@ -152,13 +152,13 @@ class RecoveryTest {
   }
 
   private Transaction modify() {
-    Transaction tx4 = db.newTx();
-    Transaction tx5 = db.newTx();
+    var tx4 = db.newTx();
+    var tx5 = db.newTx();
 
     tx4.pin(blk0);
     tx5.pin(blk1);
-    int pos = 0;
-    for (int i = 0; i < 6; i++) {
+    var pos = 0;
+    for (var i = 0; i < 6; i++) {
       tx4.setInt(blk0, pos, pos + 100, true);
       tx5.setInt(blk1, pos, pos + 100, true);
       pos += Integer.BYTES;
@@ -191,7 +191,7 @@ class RecoveryTest {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
 
-      TestRecord that = (TestRecord) o;
+      var that = (TestRecord) o;
 
       if (!Objects.equals(is, that.is)) return false;
       return Objects.equals(ss, that.ss);
@@ -199,7 +199,7 @@ class RecoveryTest {
 
     @Override
     public int hashCode() {
-      int result = is != null ? is.hashCode() : 0;
+      var result = is != null ? is.hashCode() : 0;
       result = 31 * result + (ss != null ? ss.hashCode() : 0);
       return result;
     }

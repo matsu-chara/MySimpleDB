@@ -23,16 +23,16 @@ public class FileTest {
 
   @Test
   void writeAndRead() {
-    BlockId blk = new BlockId(testFileName, 2);
-    Page p1 = new Page(fm.blockSize());
-    int pos1 = 88;
+    var blk = new BlockId(testFileName, 2);
+    var p1 = new Page(fm.blockSize());
+    var pos1 = 88;
     p1.setString(pos1, "abcdefghijklm");
-    int size = Page.maxLength("abcdefghijklm".length());
-    int pos2 = pos1 + size;
+    var size = Page.maxLength("abcdefghijklm".length());
+    var pos2 = pos1 + size;
     p1.setInt(pos2, 345);
     fm.write(blk, p1);
 
-    Page p2 = new Page(fm.blockSize());
+    var p2 = new Page(fm.blockSize());
     fm.read(blk, p2);
     assertEquals("abcdefghijklm", p2.getString(pos1));
     assertEquals(345, p2.getInt(pos2));

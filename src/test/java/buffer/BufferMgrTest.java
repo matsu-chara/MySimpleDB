@@ -30,7 +30,7 @@ class BufferMgrTest {
 
   @Test
   void buffer() {
-    Buffer[] buff = new Buffer[6];
+    var buff = new Buffer[6];
     buff[0] = bm.pin(new BlockId("testfile", 0));
     buff[1] = bm.pin(new BlockId("testfile", 1));
     buff[2] = bm.pin(new BlockId("testfile", 2));

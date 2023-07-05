@@ -18,7 +18,7 @@ public class SimpleDB {
   private BufferMgr bm;
 
   public SimpleDB(String dirname, int blocksize, int buffsize) {
-    File dbDirectory = new File(dirname);
+    var dbDirectory = new File(dirname);
     fm = new FileMgr(dbDirectory, blocksize);
     lm = new LogMgr(fm, LOG_FILE);
     bm = new BufferMgr(fm, lm, buffsize);

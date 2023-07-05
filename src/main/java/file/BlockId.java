@@ -24,7 +24,7 @@ public class BlockId {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    BlockId blockId = (BlockId) o;
+    var blockId = (BlockId) o;
     return blknum == blockId.blknum && Objects.equals(filename, blockId.filename);
   }
 

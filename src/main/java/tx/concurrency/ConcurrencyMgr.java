@@ -25,14 +25,14 @@ public class ConcurrencyMgr {
   }
 
   public void release() {
-    for (BlockId blk : locks.keySet()) {
+    for (var blk : locks.keySet()) {
       lockTbl.unlock(blk);
     }
     locks.clear();
   }
 
   private boolean hasXLock(BlockId blk) {
-    String lockType = locks.get(blk);
+    var lockType = locks.get(blk);
     return lockType != null && lockType.equals("X");
   }
 }

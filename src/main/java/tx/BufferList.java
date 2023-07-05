@@ -22,7 +22,7 @@ public class BufferList {
   }
 
   void pin(BlockId blk) {
-    Buffer buff = bm.pin(blk);
+    var buff = bm.pin(blk);
     buffers.put(
         blk,
         buff); // buffersは現在pinしているbufferへの参照を持つ。(Transactionから使われるので暗黙に現在のトランザクションでpinされているbuffer一覧となる）
@@ -30,7 +30,7 @@ public class BufferList {
   }
 
   void unpin(BlockId blk) {
-    Buffer buff = buffers.get(blk);
+    var buff = buffers.get(blk);
     bm.unpin(buff);
     pins.remove(blk);
     if (!pins.contains(blk)) { // pinが0件になったらbuffersからの参照を消す
@@ -39,8 +39,8 @@ public class BufferList {
   }
 
   void unpinAll() {
-    for (BlockId blk : pins) {
-      Buffer buff = buffers.get(blk);
+    for (var blk : pins) {
+      var buff = buffers.get(blk);
       bm.unpin(buff);
     }
     buffers.clear();

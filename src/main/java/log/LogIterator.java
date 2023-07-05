@@ -16,7 +16,7 @@ public class LogIterator implements Iterator<byte[]> {
   public LogIterator(FileMgr fm, BlockId blk) {
     this.fm = fm;
     this.blk = blk;
-    byte[] b = new byte[fm.blockSize()];
+    var b = new byte[fm.blockSize()];
     p = new Page(b);
     moveToBlock(blk);
   }
@@ -32,7 +32,7 @@ public class LogIterator implements Iterator<byte[]> {
       blk = new BlockId(blk.filename(), blk.number() - 1); // blockNumは1ずつ増えていくので逆順にたどるために1ずつ減らしている
       moveToBlock(blk);
     }
-    byte[] rec =
+    var rec =
         p.getBytes(
             currentpos); // レコードのlength(Int) + contentが読み込まれるがdecodeせずに返す(Pageに変換できるのでPageにやらせればよい）
     currentpos += Integer.BYTES + rec.length;

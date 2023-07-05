@@ -26,13 +26,13 @@ public class Schema {
   }
 
   public void add(String fldname, Schema sch) {
-    int type = sch.type(fldname);
-    int length = sch.length(fldname);
+    var type = sch.type(fldname);
+    var length = sch.length(fldname);
     addField(fldname, type, length);
   }
 
   public void addAll(Schema sch) {
-    for (String fldname : sch.fields()) {
+    for (var fldname : sch.fields()) {
       add(fldname, sch);
     }
   }

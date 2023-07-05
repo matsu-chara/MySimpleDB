@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import file.BlockId;
 import file.FileMgr;
-import file.Page;
 import java.io.File;
 import log.LogMgr;
 import org.junit.jupiter.api.AfterEach;
@@ -31,23 +30,23 @@ class BufferTest {
 
   @Test
   void test() {
-    Buffer buff1 = bm.pin(new BlockId("testfile", 1));
-    Page p = buff1.contents();
+    var buff1 = bm.pin(new BlockId("testfile", 1));
+    var p = buff1.contents();
 
-    int n = p.getInt(80);
+    var n = p.getInt(80);
     p.setInt(80, n + 1);
     buff1.setModified(1, 0);
     assertEquals(1, p.getInt(80));
     bm.unpin(buff1);
 
     // buff sizeが3なのでどこかでbuff1がflushされる
-    Buffer buff2 = bm.pin(new BlockId("testfile", 2));
-    Buffer buff3 = bm.pin(new BlockId("testfile", 3));
-    Buffer buff4 = bm.pin(new BlockId("testfile", 4));
+    var buff2 = bm.pin(new BlockId("testfile", 2));
+    var buff3 = bm.pin(new BlockId("testfile", 3));
+    var buff4 = bm.pin(new BlockId("testfile", 4));
 
     bm.unpin(buff2);
     buff2 = bm.pin(new BlockId("testfile", 1));
-    Page p2 = buff2.contents();
+    var p2 = buff2.contents();
     p2.setInt(80, 9999);
     buff2.setModified(1, 0);
     assertEquals(9999, p2.getInt(80));

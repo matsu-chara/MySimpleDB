@@ -22,33 +22,33 @@ public class RecordPage {
   }
 
   public int getInt(int slot, String fldname) {
-    int fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offsets(fldname);
     return tx.getInt(blk, fldpos);
   }
 
   public String getString(int slot, String fldname) {
-    int fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offsets(fldname);
     return tx.getString(blk, fldpos);
   }
 
   public void setInt(int slot, String fldname, int val) {
-    int fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offsets(fldname);
     tx.setInt(blk, fldpos, val, true);
   }
 
   public void setString(int slot, String fldname, String val) {
-    int fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offsets(fldname);
     tx.setString(blk, fldpos, val, true);
   }
 
   /** 1blockをschemaでformatする。block先頭にはempty/usedフラグが存在する。 */
   public void format() {
-    int slot = 0;
+    var slot = 0;
     while (isValidSlot(slot)) {
       tx.setInt(blk, offset(slot), EMPTY, false);
-      Schema sch = layout.schema();
-      for (String fldname : sch.fields()) {
-        int flodpos = offset(slot) + layout.offsets(fldname);
+      var sch = layout.schema();
+      for (var fldname : sch.fields()) {
+        var flodpos = offset(slot) + layout.offsets(fldname);
         if (sch.type(fldname) == INTEGER) {
           tx.setInt(blk, flodpos, 0, false);
         } else {
@@ -68,7 +68,7 @@ public class RecordPage {
   }
 
   public int insertAfter(int slot) {
-    int newslot = searchAfter(slot, EMPTY);
+    var newslot = searchAfter(slot, EMPTY);
     if (newslot >= 0) {
       setFlag(slot, USED);
     }

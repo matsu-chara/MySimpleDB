@@ -34,9 +34,9 @@ class ConcurrencyTest {
 
   @Test
   void test() {
-    Thread a = new Thread(new A());
-    Thread b = new Thread(new B());
-    Thread c = new Thread(new C());
+    var a = new Thread(new A());
+    var b = new Thread(new B());
+    var c = new Thread(new C());
 
     a.start();
     b.start();
@@ -49,13 +49,13 @@ class ConcurrencyTest {
       throw new RuntimeException(e);
     }
 
-    Transaction tx = db.newTx();
-    BlockId blk1 = new BlockId("testfile", 1);
-    BlockId blk2 = new BlockId("testfile", 1);
+    var tx = db.newTx();
+    var blk1 = new BlockId("testfile", 1);
+    var blk2 = new BlockId("testfile", 1);
     tx.pin(blk1);
     tx.pin(blk2);
-    int actual1 = tx.getInt(blk1, 0);
-    int actual2 = tx.getInt(blk2, 0);
+    var actual1 = tx.getInt(blk1, 0);
+    var actual2 = tx.getInt(blk2, 0);
 
     assertEquals(0, actual1);
     assertEquals(0, actual2);
@@ -66,9 +66,9 @@ class ConcurrencyTest {
     @Override
     public void run() {
       try {
-        Transaction txA = new Transaction(fm, lm, bm);
-        BlockId blk1 = new BlockId("testfile", 1);
-        BlockId blk2 = new BlockId("testfile", 2);
+        var txA = new Transaction(fm, lm, bm);
+        var blk1 = new BlockId("testfile", 1);
+        var blk2 = new BlockId("testfile", 2);
         txA.pin(blk1);
         txA.pin(blk2);
         System.out.println("Tx A: request slock 1");
@@ -90,9 +90,9 @@ class ConcurrencyTest {
     @Override
     public void run() {
       try {
-        Transaction txB = new Transaction(fm, lm, bm);
-        BlockId blk1 = new BlockId("testfile", 1);
-        BlockId blk2 = new BlockId("testfile", 2);
+        var txB = new Transaction(fm, lm, bm);
+        var blk1 = new BlockId("testfile", 1);
+        var blk2 = new BlockId("testfile", 2);
         txB.pin(blk1);
         txB.pin(blk2);
         System.out.println("Tx B: request xlock 2");
@@ -114,9 +114,9 @@ class ConcurrencyTest {
     @Override
     public void run() {
       try {
-        Transaction txC = new Transaction(fm, lm, bm);
-        BlockId blk1 = new BlockId("testfile", 1);
-        BlockId blk2 = new BlockId("testfile", 2);
+        var txC = new Transaction(fm, lm, bm);
+        var blk1 = new BlockId("testfile", 1);
+        var blk2 = new BlockId("testfile", 2);
         txC.pin(blk1);
         txC.pin(blk2);
         Thread.sleep(50);

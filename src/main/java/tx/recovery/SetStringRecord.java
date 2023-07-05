@@ -12,20 +12,20 @@ public class SetStringRecord implements LogRecord {
 
   public SetStringRecord(Page p) {
     // txnum + filename + blockNum + offset + value の順に入っている
-    int tpos = Integer.BYTES;
+    var tpos = Integer.BYTES;
     this.txnum = p.getInt(tpos);
 
-    int fpos = tpos + Integer.BYTES;
-    String filename = p.getString(fpos);
+    var fpos = tpos + Integer.BYTES;
+    var filename = p.getString(fpos);
 
-    int bpos = fpos + Page.maxLength(filename.length());
-    int blknum = p.getInt(bpos);
+    var bpos = fpos + Page.maxLength(filename.length());
+    var blknum = p.getInt(bpos);
     blk = new BlockId(filename, blknum);
 
-    int opos = bpos + Integer.BYTES;
+    var opos = bpos + Integer.BYTES;
     offset = p.getInt(opos);
 
-    int vpos = opos + Integer.BYTES;
+    var vpos = opos + Integer.BYTES;
     val = p.getString(vpos);
   }
 
@@ -62,14 +62,14 @@ public class SetStringRecord implements LogRecord {
   }
 
   public static int writeToLog(LogMgr lm, int txnum, BlockId blk, int offset, String val) {
-    int tpos = Integer.BYTES;
-    int fpos = tpos + Integer.BYTES;
-    int bpos = fpos + Page.maxLength(blk.filename().length());
-    int opos = bpos + Integer.BYTES;
-    int vpos = opos + Integer.BYTES;
-    int reclen = vpos + Page.maxLength(val.length());
-    byte[] rec = new byte[reclen];
-    Page p = new Page(rec);
+    var tpos = Integer.BYTES;
+    var fpos = tpos + Integer.BYTES;
+    var bpos = fpos + Page.maxLength(blk.filename().length());
+    var opos = bpos + Integer.BYTES;
+    var vpos = opos + Integer.BYTES;
+    var reclen = vpos + Page.maxLength(val.length());
+    var rec = new byte[reclen];
+    var p = new Page(rec);
 
     p.setInt(0, SETSTRING);
     p.setInt(tpos, txnum);

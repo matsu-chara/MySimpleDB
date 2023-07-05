@@ -20,14 +20,14 @@ public class LockTable {
 
   synchronized void sLock(BlockId blk) {
     try {
-      long starttime = System.currentTimeMillis();
+      var starttime = System.currentTimeMillis();
       while (hasXLock(blk) && !waitingTooLong(starttime)) {
         wait(maxTime);
       }
       if (hasXLock(blk)) {
         throw new LockAbortException();
       }
-      int val = getLockVal(blk); // will not be negative
+      var val = getLockVal(blk); // will not be negative
       locks.put(blk, val + 1);
     } catch (InterruptedException e) {
       throw new LockAbortException();
@@ -36,7 +36,7 @@ public class LockTable {
 
   synchronized void xLock(BlockId blk) {
     try {
-      long starttime = System.currentTimeMillis();
+      var starttime = System.currentTimeMillis();
       while (hasOtherSLocks(blk) && !waitingTooLong(starttime)) {
         wait(maxTime);
       }
@@ -50,7 +50,7 @@ public class LockTable {
   }
 
   synchronized void unlock(BlockId blk) {
-    int val = getLockVal(blk);
+    var val = getLockVal(blk);
     if (val > 1) {
       locks.put(blk, val - 1);
     } else {
@@ -72,7 +72,7 @@ public class LockTable {
   }
 
   private int getLockVal(BlockId blk) {
-    Integer ival = locks.get(blk);
+    var ival = locks.get(blk);
     return (ival == null) ? 0 : ival;
   }
 }

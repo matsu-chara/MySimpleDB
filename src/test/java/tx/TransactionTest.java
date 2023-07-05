@@ -33,31 +33,31 @@ class TransactionTest {
 
   @Test
   void test() {
-    BlockId blk = new BlockId("testfile", 1);
+    var blk = new BlockId("testfile", 1);
 
     // ブロックの初期状態は（本来は）不明な値が入っているだけ
     // なのでロールバックしてほしくない => ログにはかかない
-    Transaction tx1 = new Transaction(fm, lm, bm);
+    var tx1 = new Transaction(fm, lm, bm);
     tx1.pin(blk);
     tx1.setInt(blk, 80, 1, false);
     tx1.setString(blk, 40, "one", false);
     tx1.commit();
 
-    Transaction tx2 = new Transaction(fm, lm, bm);
+    var tx2 = new Transaction(fm, lm, bm);
     tx2.pin(blk);
-    int ival = tx2.getInt(blk, 80);
-    String sval = tx2.getString(blk, 40);
+    var ival = tx2.getInt(blk, 80);
+    var sval = tx2.getString(blk, 40);
     assertEquals(1, ival);
     assertEquals("one", sval);
 
-    int newival = ival + 1;
-    String newsval = sval + "!";
+    var newival = ival + 1;
+    var newsval = sval + "!";
 
     tx2.setInt(blk, 80, newival, true);
     tx2.setString(blk, 40, newsval, true);
     tx2.commit();
 
-    Transaction tx3 = new Transaction(fm, lm, bm);
+    var tx3 = new Transaction(fm, lm, bm);
     tx3.pin(blk);
     assertEquals(2, tx3.getInt(blk, 80));
     assertEquals("one!", tx3.getString(blk, 40));
@@ -66,7 +66,7 @@ class TransactionTest {
     assertEquals(9999, tx3.getInt(blk, 80));
     tx3.rollback();
 
-    Transaction tx4 = new Transaction(fm, lm, bm);
+    var tx4 = new Transaction(fm, lm, bm);
     tx4.pin(blk);
     assertEquals(2, tx4.getInt(blk, 80));
     tx4.commit();

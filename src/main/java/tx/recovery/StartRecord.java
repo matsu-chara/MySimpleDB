@@ -8,7 +8,7 @@ public class StartRecord implements LogRecord {
   private int txnum;
 
   public StartRecord(Page p) {
-    int tpos = Integer.BYTES;
+    var tpos = Integer.BYTES;
     txnum = p.getInt(tpos);
   }
 
@@ -32,8 +32,8 @@ public class StartRecord implements LogRecord {
   }
 
   public static int writeToLog(LogMgr lm, int txnum) {
-    byte[] rec = new byte[2 * Integer.BYTES];
-    Page p = new Page(rec);
+    var rec = new byte[2 * Integer.BYTES];
+    var p = new Page(rec);
 
     p.setInt(0, START);
     p.setInt(Integer.BYTES, txnum);

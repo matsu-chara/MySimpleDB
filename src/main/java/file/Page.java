@@ -31,8 +31,8 @@ public class Page {
     bb.position(offset);
 
     // length + 本体 の順番に並んでいる
-    int length = bb.getInt();
-    byte[] b = new byte[length];
+    var length = bb.getInt();
+    var b = new byte[length];
     bb.get(b);
     return b;
   }
@@ -45,17 +45,17 @@ public class Page {
   }
 
   public String getString(int offset) {
-    byte[] b = getBytes(offset);
+    var b = getBytes(offset);
     return new String(b, CHARSET);
   }
 
   public void setString(int offset, String s) {
-    byte[] b = s.getBytes(CHARSET);
+    var b = s.getBytes(CHARSET);
     setBytes(offset, b);
   }
 
   public static int maxLength(int strlen) {
-    float bytesPerChar = CHARSET.newEncoder().maxBytesPerChar();
+    var bytesPerChar = CHARSET.newEncoder().maxBytesPerChar();
     return Integer.BYTES + (strlen * (int) bytesPerChar);
   }
 

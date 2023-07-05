@@ -23,7 +23,7 @@ public class FileMgr {
       dbDirectory.mkdirs();
     }
 
-    for (String filename : Objects.requireNonNull(dbDirectory.list())) {
+    for (var filename : Objects.requireNonNull(dbDirectory.list())) {
       // temporaryテーブルは初期化時に削除する
       if (filename.startsWith("temp")) {
         deleteFile(filename);
@@ -34,7 +34,7 @@ public class FileMgr {
   /** blockの内容をblockに対応するfileからpageに読み込む */
   public synchronized void read(BlockId blk, Page p) {
     try {
-      RandomAccessFile f = getFile(blk.filename());
+      var f = getFile(blk.filename());
       f.seek((long) blk.number() * blockSize);
       f.getChannel().read(p.contents());
     } catch (IOException e) {
@@ -45,7 +45,7 @@ public class FileMgr {
   /** Pageの内容をblockに対応するfileに書きこむ */
   public synchronized void write(BlockId blk, Page p) {
     try {
-      RandomAccessFile f = getFile(blk.filename());
+      var f = getFile(blk.filename());
       f.seek((long) blk.number() * blockSize);
       f.getChannel().write(p.contents());
     } catch (IOException e) {
@@ -54,11 +54,11 @@ public class FileMgr {
   }
 
   public synchronized BlockId append(String filename) {
-    int newblknum = length(filename);
-    BlockId blk = new BlockId(filename, newblknum);
-    byte[] b = new byte[blockSize];
+    var newblknum = length(filename);
+    var blk = new BlockId(filename, newblknum);
+    var b = new byte[blockSize];
     try {
-      RandomAccessFile f = getFile(filename);
+      var f = getFile(filename);
       f.seek((long) blk.number() * blockSize); // 末尾までseek
       f.write(b); // 1ブロック分だけ書き込む
     } catch (IOException e) {
@@ -70,7 +70,7 @@ public class FileMgr {
   /** ファイルに含まれるブロック数を返す */
   public int length(String filename) {
     try {
-      RandomAccessFile f = getFile(filename);
+      var f = getFile(filename);
       return (int) (f.length() / blockSize);
     } catch (IOException e) {
       throw new RuntimeException("cannot access " + filename);
@@ -86,9 +86,9 @@ public class FileMgr {
   }
 
   private RandomAccessFile getFile(String filename) throws IOException {
-    RandomAccessFile f = openFiles.get(filename);
+    var f = openFiles.get(filename);
     if (f == null) {
-      File dbTable = new File(dbDirectory, filename);
+      var dbTable = new File(dbDirectory, filename);
       f = new RandomAccessFile(dbTable, "rws");
       openFiles.put(filename, f);
     }

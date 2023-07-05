@@ -2,6 +2,7 @@ package buffer;
 
 import file.BlockId;
 import file.FileMgr;
+import java.util.Arrays;
 import log.LogMgr;
 
 public class BufferMgr {
@@ -18,7 +19,7 @@ public class BufferMgr {
     this.numAvailable = numBuffers;
     this.maxTime = DEFAULT_MAX_TIME;
 
-    for (int i = 0; i < numBuffers; i++) {
+    for (var i = 0; i < numBuffers; i++) {
       bufferpool[i] = new Buffer(fm, lm);
     }
   }
@@ -28,7 +29,7 @@ public class BufferMgr {
     this.numAvailable = numBuffers;
     this.maxTime = maxTime;
 
-    for (int i = 0; i < numBuffers; i++) {
+    for (var i = 0; i < numBuffers; i++) {
       bufferpool[i] = new Buffer(fm, lm);
     }
   }
@@ -38,7 +39,7 @@ public class BufferMgr {
   }
 
   public synchronized void flushAll(int txnum) {
-    for (Buffer buffer : bufferpool) {
+    for (var buffer : bufferpool) {
       if (buffer.modifyingTx() == txnum) {
         buffer.flush();
       }
@@ -55,8 +56,8 @@ public class BufferMgr {
 
   public synchronized Buffer pin(BlockId blk) {
     try {
-      long timestamp = System.currentTimeMillis();
-      Buffer buff = tryToPin(blk);
+      var timestamp = System.currentTimeMillis();
+      var buff = tryToPin(blk);
       while (buff == null && !waitingTooLong(timestamp)) {
         wait(maxTime); // unpinでnotifyAllされる
         buff = tryToPin(blk);
@@ -75,7 +76,7 @@ public class BufferMgr {
   }
 
   private Buffer tryToPin(BlockId blk) {
-    Buffer buff = findExistingBuffer(blk);
+    var buff = findExistingBuffer(blk);
     if (buff == null) {
       buff = chooseUnpinnedBuffer();
       if (buff == null) {
@@ -94,8 +95,8 @@ public class BufferMgr {
   }
 
   private Buffer findExistingBuffer(BlockId blk) {
-    for (Buffer buff : bufferpool) {
-      BlockId b = buff.block();
+    for (var buff : bufferpool) {
+      var b = buff.block();
       if (b != null && b.equals(blk)) {
         return buff;
       }
@@ -105,11 +106,6 @@ public class BufferMgr {
 
   /** nullable */
   private Buffer chooseUnpinnedBuffer() {
-    for (Buffer buffer : bufferpool) {
-      if (!buffer.isPinned()) {
-        return buffer;
-      }
-    }
-    return null;
+    return Arrays.stream(bufferpool).filter(buffer -> !buffer.isPinned()).findFirst().orElse(null);
   }
 }
