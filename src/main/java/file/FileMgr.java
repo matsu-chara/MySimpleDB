@@ -20,7 +20,10 @@ public class FileMgr {
 
     // 新規ならディレクトリを作る
     if (isNew) {
-      dbDirectory.mkdirs();
+      var ok = dbDirectory.mkdirs();
+      if (!ok) {
+        throw new RuntimeException("failed to create dirs");
+      }
     }
 
     for (var filename : Objects.requireNonNull(dbDirectory.list())) {
@@ -47,7 +50,13 @@ public class FileMgr {
     try {
       var f = getFile(blk.filename());
       f.seek((long) blk.number() * blockSize);
-      f.getChannel().write(p.contents());
+      var contents = p.contents();
+      var written = f.getChannel().write(contents);
+      if (written != contents.limit()) {
+        throw new RuntimeException(
+            "The bytes written to the file was not equal to the contents size. written = "
+                + written);
+      }
     } catch (IOException e) {
       throw new RuntimeException("cannot write block " + blk);
     }
@@ -97,6 +106,10 @@ public class FileMgr {
 
   /** this is for testing */
   public void deleteFile(String filename) {
-    new File(dbDirectory, filename).delete();
+    var file = new File(dbDirectory, filename);
+    var ok = file.delete();
+    if (!ok) {
+      throw new RuntimeException("failed to delete directory");
+    }
   }
 }
