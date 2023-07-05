@@ -74,7 +74,7 @@ public class SetStringRecord implements LogRecord {
     p.setInt(0, SETSTRING);
     p.setInt(tpos, txnum);
     p.setString(fpos, blk.filename());
-    p.setInt(bpos, blk.number());
+    p.setInt(bpos, blk.blknum());
     p.setInt(opos, offset);
     p.setString(vpos, val);
     return lm.append(rec);

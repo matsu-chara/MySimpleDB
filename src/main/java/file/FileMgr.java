@@ -38,7 +38,7 @@ public class FileMgr {
   public synchronized void read(BlockId blk, Page p) {
     try {
       var f = getFile(blk.filename());
-      f.seek((long) blk.number() * blockSize);
+      f.seek((long) blk.blknum() * blockSize);
       f.getChannel().read(p.contents());
     } catch (IOException e) {
       throw new RuntimeException("cannot read block " + blk);
@@ -49,7 +49,7 @@ public class FileMgr {
   public synchronized void write(BlockId blk, Page p) {
     try {
       var f = getFile(blk.filename());
-      f.seek((long) blk.number() * blockSize);
+      f.seek((long) blk.blknum() * blockSize);
       var contents = p.contents();
       var written = f.getChannel().write(contents);
       if (written != contents.limit()) {
@@ -68,7 +68,7 @@ public class FileMgr {
     var b = new byte[blockSize];
     try {
       var f = getFile(filename);
-      f.seek((long) blk.number() * blockSize); // 末尾までseek
+      f.seek((long) blk.blknum() * blockSize); // 末尾までseek
       f.write(b); // 1ブロック分だけ書き込む
     } catch (IOException e) {
       throw new RuntimeException("cannot append block " + blk);

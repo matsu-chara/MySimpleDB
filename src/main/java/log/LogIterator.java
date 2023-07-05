@@ -23,13 +23,13 @@ public class LogIterator implements Iterator<byte[]> {
 
   @Override
   public boolean hasNext() {
-    return currentpos < fm.blockSize() || blk.number() > 0; // blockNumを逆順に辿っていくので0に到達したら終わり
+    return currentpos < fm.blockSize() || blk.blknum() > 0; // blockNumを逆順に辿っていくので0に到達したら終わり
   }
 
   @Override
   public byte[] next() {
     if (currentpos == fm.blockSize()) {
-      blk = new BlockId(blk.filename(), blk.number() - 1); // blockNumは1ずつ増えていくので逆順にたどるために1ずつ減らしている
+      blk = new BlockId(blk.filename(), blk.blknum() - 1); // blockNumは1ずつ増えていくので逆順にたどるために1ずつ減らしている
       moveToBlock(blk);
     }
     var rec =
