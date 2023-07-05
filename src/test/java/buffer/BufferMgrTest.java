@@ -12,14 +12,13 @@ import org.junit.jupiter.api.Test;
 
 class BufferMgrTest {
   private FileMgr fm;
-  private LogMgr lm;
   private BufferMgr bm;
   String logFilename = "simpledb_buffer_mgr_test.log";
 
   @BeforeEach
   void setup() {
     fm = new FileMgr(new File("test_buffer_mgr"), 400);
-    lm = new LogMgr(fm, logFilename);
+    var lm = new LogMgr(fm, logFilename);
     bm = new BufferMgr(fm, lm, 3, 100 /* ms */);
   }
 

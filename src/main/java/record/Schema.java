@@ -53,7 +53,7 @@ public class Schema {
     return info.get(fldname).length;
   }
 
-  class FieldInfo {
+  static class FieldInfo {
     int type, length;
 
     public FieldInfo(int type, int length) {

@@ -49,7 +49,6 @@ public class LogMgr {
     if (boundary - bytesneeded < Integer.BYTES) {
       // 書き込めないので次のページに行く
       flush();
-      ;
       currentblk = appendNewBlock();
       boundary = logpage.getInt(0);
     }

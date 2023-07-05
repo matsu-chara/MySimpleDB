@@ -12,14 +12,13 @@ import org.junit.jupiter.api.Test;
 
 class BufferTest {
   private FileMgr fm;
-  private LogMgr lm;
   private BufferMgr bm;
   String logFilename = "simpledb_buffer_test.log";
 
   @BeforeEach
   void setup() {
     fm = new FileMgr(new File("test_buffer"), 400);
-    lm = new LogMgr(fm, logFilename);
+    var lm = new LogMgr(fm, logFilename);
     bm = new BufferMgr(fm, lm, 3);
   }
 
@@ -41,8 +40,8 @@ class BufferTest {
 
     // buff sizeが3なのでどこかでbuff1がflushされる
     var buff2 = bm.pin(new BlockId("testfile", 2));
-    var buff3 = bm.pin(new BlockId("testfile", 3));
-    var buff4 = bm.pin(new BlockId("testfile", 4));
+    bm.pin(new BlockId("testfile", 3));
+    bm.pin(new BlockId("testfile", 4));
 
     bm.unpin(buff2);
     buff2 = bm.pin(new BlockId("testfile", 1));

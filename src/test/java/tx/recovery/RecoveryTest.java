@@ -42,6 +42,7 @@ class RecoveryTest {
 
     var tx3 = db.newTx();
     tx3.pin(blk0);
+    @SuppressWarnings("PointlessArithmeticExpression")
     var expected1 =
         new TestRecord(
             Arrays.asList(
@@ -51,7 +52,8 @@ class RecoveryTest {
                 Integer.BYTES * 3,
                 Integer.BYTES * 4,
                 Integer.BYTES * 5),
-            Arrays.asList("abc"));
+            List.of("abc"));
+    @SuppressWarnings("PointlessArithmeticExpression")
     var actual1 =
         new TestRecord(
             Arrays.asList(
@@ -61,10 +63,11 @@ class RecoveryTest {
                 tx3.getInt(blk0, Integer.BYTES * 3),
                 tx3.getInt(blk0, Integer.BYTES * 4),
                 tx3.getInt(blk0, Integer.BYTES * 5)),
-            Arrays.asList(tx3.getString(blk0, 30)));
+            List.of(tx3.getString(blk0, 30)));
     assertEquals(expected1, actual1);
 
     tx3.pin(blk1);
+    @SuppressWarnings("PointlessArithmeticExpression")
     var expected2 =
         new TestRecord(
             Arrays.asList(
@@ -74,7 +77,8 @@ class RecoveryTest {
                 Integer.BYTES * 3,
                 Integer.BYTES * 4,
                 Integer.BYTES * 5),
-            Arrays.asList("def"));
+            List.of("def"));
+    @SuppressWarnings("PointlessArithmeticExpression")
     var actual2 =
         new TestRecord(
             Arrays.asList(
@@ -84,7 +88,7 @@ class RecoveryTest {
                 tx3.getInt(blk1, Integer.BYTES * 3),
                 tx3.getInt(blk1, Integer.BYTES * 4),
                 tx3.getInt(blk1, Integer.BYTES * 5)),
-            Arrays.asList(tx3.getString(blk1, 30)));
+            List.of(tx3.getString(blk1, 30)));
     assertEquals(expected2, actual2);
     tx3.commit();
 
@@ -92,6 +96,7 @@ class RecoveryTest {
 
     tx3.pin(blk0);
     var expected3 = expected1; // tx4はrollback済みなので変更されない
+    @SuppressWarnings("PointlessArithmeticExpression")
     var actual3 =
         new TestRecord(
             Arrays.asList(
@@ -101,11 +106,12 @@ class RecoveryTest {
                 tx3.getInt(blk0, Integer.BYTES * 3),
                 tx3.getInt(blk0, Integer.BYTES * 4),
                 tx3.getInt(blk0, Integer.BYTES * 5)),
-            Arrays.asList(tx3.getString(blk0, 30)));
+            List.of(tx3.getString(blk0, 30)));
     assertEquals(expected3, actual3);
 
     var p = new Page(fm.blockSize());
     fm.read(blk1, p);
+    @SuppressWarnings("PointlessArithmeticExpression")
     var expected4 =
         new TestRecord( // tx5は未コミットだがflushはされてるので読める
             Arrays.asList(
@@ -115,7 +121,8 @@ class RecoveryTest {
                 Integer.BYTES * 3 + 100,
                 Integer.BYTES * 4 + 100,
                 Integer.BYTES * 5 + 100),
-            Arrays.asList("xyz"));
+            List.of("xyz"));
+    @SuppressWarnings("PointlessArithmeticExpression")
     var actual4 =
         new TestRecord(
             Arrays.asList(
@@ -125,7 +132,7 @@ class RecoveryTest {
                 p.getInt(Integer.BYTES * 3),
                 p.getInt(Integer.BYTES * 4),
                 p.getInt(Integer.BYTES * 5)),
-            Arrays.asList(p.getString(30)));
+            List.of(p.getString(30)));
     assertEquals(expected4, actual4);
 
     tx5.commit();
