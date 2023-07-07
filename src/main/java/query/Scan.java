@@ -1,17 +1,17 @@
 package query;
 
 public interface Scan {
-  public void beforeFirst();
+  void beforeFirst();
 
-  public boolean next();
+  boolean next();
 
-  public int getInt();
+  int getInt();
 
-  public String getString();
+  String getString();
 
-  public Constant getVal();
+  Constant getVal();
 
-  public boolean hasField(String fldname);
+  boolean hasField(String fldname);
 
-  public void close();
+  void close();
 }

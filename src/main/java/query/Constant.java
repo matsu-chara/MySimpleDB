@@ -25,7 +25,7 @@ public class Constant implements Comparable<Constant> {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Constant constant = (Constant) o;
+    var constant = (Constant) o;
     return (ival != null) ? ival.equals(constant.ival) : sval.equals(constant.sval);
   }
 
@@ -41,6 +41,6 @@ public class Constant implements Comparable<Constant> {
 
   @Override
   public String toString() {
-    return (ival != null) ? ival.toString() : sval.toString();
+    return (ival != null) ? ival.toString() : sval;
   }
 }
