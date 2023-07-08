@@ -5,11 +5,11 @@ public interface Scan {
 
   boolean next();
 
-  int getInt();
+  int getInt(String fldname);
 
-  String getString();
+  String getString(String fldname);
 
-  Constant getVal();
+  Constant getVal(String fldname);
 
   boolean hasField(String fldname);
 
