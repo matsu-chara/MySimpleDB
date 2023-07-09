@@ -51,8 +51,9 @@ public class Buffer {
 
   void assignToBlock(BlockId b) {
     flush(); // modifyされた内容はディスクに永続化されるのでBlockに対応する値が変わっても安心
-    blk =
-        b; // fm.readするわけではないので、直後にcontentsからgetIntなどをすると違うブロックのデータが取れる点には注意（readしなくていいケースがあるならパフォーマンス的にしない方が良い）
+    blk = b;
+    fm.read(blk, contents);
+    pins = 0;
   }
 
   void flush() {

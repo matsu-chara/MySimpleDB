@@ -100,7 +100,7 @@ public class Transaction {
 
   public BlockId append(String filename) {
     var dummyblk = new BlockId(filename, END_OF_FILE);
-    concurMgr.sLock(dummyblk);
+    concurMgr.xLock(dummyblk);
     return fm.append(filename);
   }
 

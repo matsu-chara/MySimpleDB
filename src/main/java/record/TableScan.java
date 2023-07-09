@@ -92,7 +92,7 @@ public class TableScan implements UpdateScan {
 
   @Override
   public void insert() {
-    currentslot = rp.nextAfter(currentslot);
+    currentslot = rp.insertAfter(currentslot);
     while (currentslot < 0) {
       if (atLastBlock()) {
         moveToNewBlock();
