@@ -27,8 +27,7 @@ class TransactionTest {
 
   @AfterEach
   void teardown() {
-    fm.deleteFile("testfile");
-    fm.deleteFile("simpledb.log");
+    fm.deleteDir();
   }
 
   @Test

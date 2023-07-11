@@ -17,8 +17,7 @@ class TableScanTest {
 
   @AfterEach
   void teardown() {
-    db.fileMgr().deleteFile("T.tbl");
-    db.fileMgr().deleteFile("simpledb.log");
+    db.fileMgr().deleteDir();
   }
 
   @Test

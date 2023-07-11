@@ -18,7 +18,7 @@ public class FileTest {
 
   @AfterEach
   void teardown() {
-    fm.deleteFile(testFileName);
+    fm.deleteDir();
   }
 
   @Test

@@ -104,12 +104,30 @@ public class FileMgr {
     return f;
   }
 
-  /** this is for testing */
-  public void deleteFile(String filename) {
+  private void deleteFile(String filename) {
     var file = new File(dbDirectory, filename);
     var ok = file.delete();
     if (!ok) {
       throw new RuntimeException("failed to delete directory");
+    }
+  }
+
+  /** this is for testing */
+  public void deleteDir() {
+    var files = dbDirectory.list();
+    if (files == null) {
+      return;
+    }
+
+    for (var f : files) {
+      var result = new File(dbDirectory, f).delete();
+      if (!result) {
+        throw new RuntimeException("failed to delete dir");
+      }
+    }
+    var result = dbDirectory.delete();
+    if (!result) {
+      throw new RuntimeException("failed to delete dir");
     }
   }
 }

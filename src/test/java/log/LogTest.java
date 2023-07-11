@@ -25,7 +25,7 @@ class LogTest {
 
   @AfterEach
   void teardown() {
-    fm.deleteFile(logFilename);
+    fm.deleteDir();
   }
 
   @Test
