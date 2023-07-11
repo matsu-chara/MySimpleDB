@@ -32,15 +32,15 @@ public class SimpleDB {
     return new Transaction(fm, lm, bm);
   }
 
-  public FileMgr fm() {
+  public FileMgr fileMgr() {
     return fm;
   }
 
-  public LogMgr lm() {
+  public LogMgr logMgr() {
     return lm;
   }
 
-  public BufferMgr bm() {
+  public BufferMgr bufferMgr() {
     return bm;
   }
 }

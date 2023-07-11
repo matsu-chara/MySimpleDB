@@ -17,8 +17,8 @@ class RecordPageTest {
 
   @AfterEach
   void teardown() {
-    db.fm().deleteFile("testfile");
-    db.fm().deleteFile("simpledb.log");
+    db.fileMgr().deleteFile("testfile");
+    db.fileMgr().deleteFile("simpledb.log");
   }
 
   @Test

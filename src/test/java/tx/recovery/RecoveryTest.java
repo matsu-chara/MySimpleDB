@@ -24,8 +24,8 @@ class RecoveryTest {
   @BeforeEach
   void setup() {
     db = new SimpleDB("test_recovery", 400, 8);
-    fm = db.fm();
-    bm = db.bm();
+    fm = db.fileMgr();
+    bm = db.bufferMgr();
     blk0 = new BlockId("testfile", 0);
     blk1 = new BlockId("testfile", 1);
   }

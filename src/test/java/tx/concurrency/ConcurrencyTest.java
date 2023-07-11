@@ -21,9 +21,9 @@ class ConcurrencyTest {
   @BeforeEach
   void setup() {
     db = new SimpleDB("test_concurrency", 400, 8);
-    fm = db.fm();
-    bm = db.bm();
-    lm = db.lm();
+    fm = db.fileMgr();
+    bm = db.bufferMgr();
+    lm = db.logMgr();
   }
 
   @AfterEach
