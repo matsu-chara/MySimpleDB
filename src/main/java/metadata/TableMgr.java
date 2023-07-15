@@ -28,7 +28,7 @@ public class TableMgr {
 
     if (isNew) {
       createTable("tblcat", tcatSchema, tx);
-      createTable("fldcat", tcatSchema, tx);
+      createTable("fldcat", fcatSchema, tx);
     }
   }
 
@@ -79,7 +79,6 @@ public class TableMgr {
       }
     }
     fcat.close();
-
     return new Layout(sch, offsets, size);
   }
 }
