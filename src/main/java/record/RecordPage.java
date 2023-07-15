@@ -22,22 +22,22 @@ public class RecordPage {
   }
 
   public int getInt(int slot, String fldname) {
-    var fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offset(fldname);
     return tx.getInt(blk, fldpos);
   }
 
   public String getString(int slot, String fldname) {
-    var fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offset(fldname);
     return tx.getString(blk, fldpos);
   }
 
   public void setInt(int slot, String fldname, int val) {
-    var fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offset(fldname);
     tx.setInt(blk, fldpos, val, true);
   }
 
   public void setString(int slot, String fldname, String val) {
-    var fldpos = offset(slot) + layout.offsets(fldname);
+    var fldpos = offset(slot) + layout.offset(fldname);
     tx.setString(blk, fldpos, val, true);
   }
 
@@ -48,7 +48,7 @@ public class RecordPage {
       tx.setInt(blk, offset(slot), EMPTY, false);
       var sch = layout.schema();
       for (var fldname : sch.fields()) {
-        var flodpos = offset(slot) + layout.offsets(fldname);
+        var flodpos = offset(slot) + layout.offset(fldname);
         if (sch.type(fldname) == INTEGER) {
           tx.setInt(blk, flodpos, 0, false);
         } else {

@@ -33,7 +33,7 @@ public class Layout {
     return schema;
   }
 
-  public Integer offsets(String fldname) {
+  public Integer offset(String fldname) {
     return offsets.get(fldname);
   }
 

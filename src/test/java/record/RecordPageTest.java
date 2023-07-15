@@ -28,8 +28,8 @@ class RecordPageTest {
     sch.addStringField("B", 9);
     var layout = new Layout(sch);
 
-    assertEquals(Integer.BYTES, layout.offsets("A"));
-    assertEquals(Integer.BYTES * 2, layout.offsets("B"));
+    assertEquals(Integer.BYTES, layout.offset("A"));
+    assertEquals(Integer.BYTES * 2, layout.offset("B"));
 
     var blk = tx.append("testfile");
     tx.pin(blk);

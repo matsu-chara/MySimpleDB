@@ -12,7 +12,7 @@ class LayoutTest {
     sch.addStringField("b", 9);
     var layout = new Layout(sch);
 
-    assertEquals(Integer.BYTES, layout.offsets("a"));
-    assertEquals(Integer.BYTES * 2, layout.offsets("b"));
+    assertEquals(Integer.BYTES, layout.offset("a"));
+    assertEquals(Integer.BYTES * 2, layout.offset("b"));
   }
 }

@@ -48,7 +48,7 @@ public class TableMgr {
       fcat.setString("fldname", fldname);
       fcat.setInt("type", sch.type(fldname));
       fcat.setInt("length", sch.length(fldname));
-      fcat.setInt("offset", layout.offsets(fldname));
+      fcat.setInt("offset", layout.offset(fldname));
     }
     fcat.close();
   }

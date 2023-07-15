@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import record.Schema;
 import server.SimpleDB;
 
-class TableMgrTest {
+class CatalogTest {
   private SimpleDB db;
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_table_mgr", 400, 8);
+    db = new SimpleDB("test_catalog", 400, 8);
   }
 
   @AfterEach
