@@ -27,65 +27,71 @@ class CatalogTest {
   void test() {
     var tx = db.newTx();
 
-    var tm = new TableMgr(true, tx);
+    var tm = new TableMgr(false, tx);
 
     var tcatLayout = tm.getLayout("tblcat", tx);
     var ts1 = new TableScan(tx, "tblcat", tcatLayout);
-    ts1.next();
-    assertEquals("tblcat", ts1.getString("tblname"));
-    assertEquals(28, ts1.getInt("slotsize"));
-    ts1.next();
-    assertEquals("fldcat", ts1.getString("tblname"));
-    assertEquals(56, ts1.getInt("slotsize"));
-    assertFalse(ts1.next());
+
+    // ここではtblcat, fldcatテーブルについて検証する。(実際にはviewやindexなどのテーブルも作成されている
+    var count = 0;
+    while (ts1.next()) {
+      var tblname = ts1.getString("tblname");
+      if (tblname.equals("tblcat")) {
+        assertEquals(28, ts1.getInt("slotsize"));
+        count++;
+      } else if (tblname.equals("fldcat")) {
+        assertEquals(56, ts1.getInt("slotsize"));
+        count++;
+      }
+    }
+    assertEquals(2, count);
     ts1.close();
 
     var fcatLayout = tm.getLayout("fldcat", tx);
     var ts2 = new TableScan(tx, "fldcat", fcatLayout);
-    ts2.next();
-    assertEquals("tblcat", ts2.getString("tblname"));
-    assertEquals("tblname", ts2.getString("fldname"));
-    assertEquals(VARCHAR, ts2.getInt("type"));
-    assertEquals(16, ts2.getInt("length"));
-    assertEquals(4, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("tblcat", ts2.getString("tblname"));
-    assertEquals("slotsize", ts2.getString("fldname"));
-    assertEquals(INTEGER, ts2.getInt("type"));
-    assertEquals(0, ts2.getInt("length"));
-    assertEquals(24, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("fldcat", ts2.getString("tblname"));
-    assertEquals("tblname", ts2.getString("fldname"));
-    assertEquals(VARCHAR, ts2.getInt("type"));
-    assertEquals(16, ts2.getInt("length"));
-    assertEquals(4, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("fldcat", ts2.getString("tblname"));
-    assertEquals("fldname", ts2.getString("fldname"));
-    assertEquals(VARCHAR, ts2.getInt("type"));
-    assertEquals(16, ts2.getInt("length"));
-    assertEquals(24, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("fldcat", ts2.getString("tblname"));
-    assertEquals("type", ts2.getString("fldname"));
-    assertEquals(INTEGER, ts2.getInt("type"));
-    assertEquals(0, ts2.getInt("length"));
-    assertEquals(44, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("fldcat", ts2.getString("tblname"));
-    assertEquals("length", ts2.getString("fldname"));
-    assertEquals(INTEGER, ts2.getInt("type"));
-    assertEquals(0, ts2.getInt("length"));
-    assertEquals(48, ts2.getInt("offset"));
-    ts2.next();
-    assertEquals("fldcat", ts2.getString("tblname"));
-    assertEquals("offset", ts2.getString("fldname"));
-    assertEquals(INTEGER, ts2.getInt("type"));
-    assertEquals(0, ts2.getInt("length"));
-    assertEquals(52, ts2.getInt("offset"));
+    var count2 = 0;
+    while (ts2.next()) {
+      var tblname = ts2.getString("tblname");
+      var fldname = ts2.getString("fldname");
+      if (tblname.equals("tblcat") && fldname.equals("tblname")) {
+        count2++;
+        assertEquals(VARCHAR, ts2.getInt("type"));
+        assertEquals(16, ts2.getInt("length"));
+        assertEquals(4, ts2.getInt("offset"));
+      } else if (tblname.equals("tblcat") && fldname.equals("slotsize")) {
+        count2++;
+        assertEquals(INTEGER, ts2.getInt("type"));
+        assertEquals(0, ts2.getInt("length"));
+        assertEquals(24, ts2.getInt("offset"));
+      } else if (tblname.equals("tblcat") && fldname.equals("fldcat")) {
+        count2++;
+        assertEquals(VARCHAR, ts2.getInt("type"));
+        assertEquals(16, ts2.getInt("length"));
+        assertEquals(4, ts2.getInt("offset"));
+      } else if (tblname.equals("fldcat") && fldname.equals("fldname")) {
+        count2++;
+        assertEquals(VARCHAR, ts2.getInt("type"));
+        assertEquals(16, ts2.getInt("length"));
+        assertEquals(24, ts2.getInt("offset"));
+      } else if (tblname.equals("fldcat") && fldname.equals("type")) {
+        count2++;
+        assertEquals(INTEGER, ts2.getInt("type"));
+        assertEquals(0, ts2.getInt("length"));
+        assertEquals(44, ts2.getInt("offset"));
+      } else if (tblname.equals("fldcat") && fldname.equals("length")) {
+        count2++;
+        assertEquals(INTEGER, ts2.getInt("type"));
+        assertEquals(0, ts2.getInt("length"));
+        assertEquals(48, ts2.getInt("offset"));
+      } else if (tblname.equals("fldcat") && fldname.equals("offset")) {
+        count2++;
+        assertEquals(INTEGER, ts2.getInt("type"));
+        assertEquals(0, ts2.getInt("length"));
+        assertEquals(52, ts2.getInt("offset"));
+      }
+    }
+    assertEquals(6, count2);
 
-    assertFalse(ts2.next());
     ts2.close();
     tx.commit();
   }
