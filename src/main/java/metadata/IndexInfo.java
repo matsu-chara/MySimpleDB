@@ -37,6 +37,10 @@ public class IndexInfo {
     return si.recordsOutput() / si.distinctValues();
   }
 
+  public int distinctValues(String fname) {
+    return fldname.equals(fname) ? 1 : si.distinctValues();
+  }
+
   private Layout createIdxLayout() {
     var sch = new Schema();
     sch.addIntField("block");

@@ -4,6 +4,7 @@ import buffer.BufferMgr;
 import file.FileMgr;
 import java.io.File;
 import log.LogMgr;
+import metadata.MetadataMgr;
 import tx.Transaction;
 
 public class SimpleDB {
@@ -13,15 +14,26 @@ public class SimpleDB {
   public static String LOG_FILE = "simpledb.log";
 
   private FileMgr fm;
-  private LogMgr lm;
-
   private BufferMgr bm;
+  private LogMgr lm;
+  private MetadataMgr mdm;
 
   public SimpleDB(String dirname, int blocksize, int buffsize) {
     var dbDirectory = new File(dirname);
     fm = new FileMgr(dbDirectory, blocksize);
     lm = new LogMgr(fm, LOG_FILE);
     bm = new BufferMgr(fm, lm, buffsize);
+
+    var tx = newTx();
+    var isNew = fm.isNew();
+    if (isNew) {
+      System.out.println("creating new database");
+    } else {
+      System.out.println("recovering existing database");
+      tx.recover();
+    }
+    mdm = new MetadataMgr(isNew, tx);
+    tx.commit();
   }
 
   public SimpleDB(String dirname) {
@@ -30,6 +42,10 @@ public class SimpleDB {
 
   public Transaction newTx() {
     return new Transaction(fm, lm, bm);
+  }
+
+  public MetadataMgr mdMgr() {
+    return mdm;
   }
 
   public FileMgr fileMgr() {

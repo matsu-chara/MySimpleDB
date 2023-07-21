@@ -18,6 +18,6 @@ public class StatInfo {
   }
 
   public int distinctValues() {
-    return 1 / (numRecs / 3); // 実装簡略化のため超適当な推測になっている。
+    return (numRecs / 3); // 実装簡略化のため超適当な推測になっている。
   }
 }
