@@ -17,23 +17,27 @@ public class SimpleDB {
   private BufferMgr bm;
   private LogMgr lm;
   private MetadataMgr mdm;
+  private static final Object lock = new Object();
 
   public SimpleDB(String dirname, int blocksize, int buffsize) {
     var dbDirectory = new File(dirname);
-    fm = new FileMgr(dbDirectory, blocksize);
-    lm = new LogMgr(fm, LOG_FILE);
-    bm = new BufferMgr(fm, lm, buffsize);
 
-    var tx = newTx();
-    var isNew = fm.isNew();
-    if (isNew) {
-      System.out.println("creating new database");
-    } else {
-      System.out.println("recovering existing database");
-      tx.recover();
+    synchronized (lock) {
+      fm = new FileMgr(dbDirectory, blocksize);
+      lm = new LogMgr(fm, LOG_FILE);
+      bm = new BufferMgr(fm, lm, buffsize);
+
+      var tx = newTx();
+      var isNew = fm.isNew();
+      if (isNew) {
+        System.out.println("creating new database");
+      } else {
+        System.out.println("recovering existing database");
+        tx.recover();
+      }
+      mdm = new MetadataMgr(isNew, tx);
+      tx.commit();
     }
-    mdm = new MetadataMgr(isNew, tx);
-    tx.commit();
   }
 
   public SimpleDB(String dirname) {
