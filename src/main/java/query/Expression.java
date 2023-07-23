@@ -31,7 +31,7 @@ public class Expression {
   }
 
   public boolean appliesTo(Schema sch) {
-    return (val != null) ? true : sch.hasField(fldname);
+    return val != null || sch.hasField(fldname);
   }
 
   public String toString() {

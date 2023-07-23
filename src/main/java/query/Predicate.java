@@ -80,7 +80,7 @@ public class Predicate {
       return "";
     }
 
-    StringBuilder result = new StringBuilder(iter.next().toString());
+    var result = new StringBuilder(iter.next().toString());
     while (iter.hasNext()) {
       result.append(" and ").append(iter.next().toString());
     }
