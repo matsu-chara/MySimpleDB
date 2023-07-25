@@ -3,13 +3,13 @@ package query;
 import record.Schema;
 
 public interface Plan {
-  public Scan open();
+  Scan open();
 
-  public int blocksAccessed();
+  int blocksAccessed();
 
-  public int recordsOutput();
+  int recordsOutput();
 
-  public int distinctValues(String fldname);
+  int distinctValues(String fldname);
 
-  public Schema schema();
+  Schema schema();
 }
