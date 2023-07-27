@@ -33,7 +33,7 @@ public class Predicate {
         result.terms.add(t);
       }
     }
-    if (result.terms.size() == 0) {
+    if (result.terms.isEmpty()) {
       return null;
     } else {
       return result;
@@ -50,7 +50,7 @@ public class Predicate {
         result.terms.add(t);
       }
     }
-    if (result.terms.size() == 0) {
+    if (result.terms.isEmpty()) {
       return null;
     } else {
       return result;
