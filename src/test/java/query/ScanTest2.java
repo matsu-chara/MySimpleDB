@@ -29,7 +29,7 @@ class ScanTest2 {
   void test() {
     var tx = db.newTx();
 
-    Scan s3 = getScan(tx);
+    var s3 = getScan(tx);
 
     var t = new Term(new Expression("A"), new Expression("C"));
     var pred = new Predicate(t);
