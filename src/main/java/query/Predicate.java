@@ -3,6 +3,7 @@ package query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import plan.Plan;
 import record.Schema;
 
 public class Predicate {
@@ -23,7 +24,8 @@ public class Predicate {
   }
 
   public int reductionFactor(Plan p) {
-    return terms.stream().mapToInt(t -> t.reductionFactor(p)).reduce(1, (a, b) -> a * b);
+    var factor = terms.stream().mapToInt(t -> t.reductionFactor(p)).reduce(1, (a, b) -> a * b);
+    return factor;
   }
 
   public Predicate selectSubPred(Schema sch) {
@@ -33,7 +35,7 @@ public class Predicate {
         result.terms.add(t);
       }
     }
-    if (result.terms.isEmpty()) {
+    if (result.terms.size() == 0) {
       return null;
     } else {
       return result;
@@ -50,7 +52,7 @@ public class Predicate {
         result.terms.add(t);
       }
     }
-    if (result.terms.isEmpty()) {
+    if (result.terms.size() == 0) {
       return null;
     } else {
       return result;
@@ -79,7 +81,7 @@ public class Predicate {
       return "";
     }
 
-    var result = new StringBuilder(iter.next().toString());
+    StringBuilder result = new StringBuilder(iter.next().toString());
     while (iter.hasNext()) {
       result.append(" and ").append(iter.next().toString());
     }

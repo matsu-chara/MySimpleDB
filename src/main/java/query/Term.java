@@ -1,5 +1,6 @@
 package query;
 
+import plan.Plan;
 import record.Schema;
 
 public class Term {

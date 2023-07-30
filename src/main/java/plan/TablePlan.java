@@ -26,18 +26,22 @@ public class TablePlan implements Plan {
     return new TableScan(tx, tblname, layout);
   }
 
+  @Override
   public int blocksAccessed() {
     return si.blocksAccessed();
   }
 
+  @Override
   public int recordsOutput() {
     return si.recordsOutput();
   }
 
-  public int distinctValues() {
+  @Override
+  public int distinctValues(String fldname) {
     return si.distinctValues();
   }
 
+  @Override
   public Schema schema() {
     return layout.schema();
   }
