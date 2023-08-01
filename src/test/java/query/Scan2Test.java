@@ -12,7 +12,7 @@ import record.TableScan;
 import server.SimpleDB;
 import tx.Transaction;
 
-class ScanTest2 {
+class Scan2Test {
   private SimpleDB db;
 
   @BeforeEach

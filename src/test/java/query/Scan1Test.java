@@ -11,7 +11,7 @@ import record.Schema;
 import record.TableScan;
 import server.SimpleDB;
 
-class ScanTest1 {
+class Scan1Test {
   private SimpleDB db;
 
   @BeforeEach
