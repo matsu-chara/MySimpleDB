@@ -24,8 +24,7 @@ public class Predicate {
   }
 
   public int reductionFactor(Plan p) {
-    var factor = terms.stream().mapToInt(t -> t.reductionFactor(p)).reduce(1, (a, b) -> a * b);
-    return factor;
+    return terms.stream().mapToInt(t -> t.reductionFactor(p)).reduce(1, (a, b) -> a * b);
   }
 
   public Predicate selectSubPred(Schema sch) {

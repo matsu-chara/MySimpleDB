@@ -89,7 +89,6 @@ class Scan2Test {
 
     Scan s1 = new TableScan(tx, "T1", layout1);
     Scan s2 = new TableScan(tx, "T2", layout2);
-    Scan s3 = new ProductScan(s1, s2);
-    return s3;
+    return new ProductScan(s1, s2);
   }
 }

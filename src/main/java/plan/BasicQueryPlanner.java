@@ -21,7 +21,7 @@ public class BasicQueryPlanner implements QueryPlanner {
     for (var tblname : data.tables()) {
       var viewdef = mdm.getViewDef(tblname, tx);
       if (viewdef != null) { // 再帰でview用のPlanをとってくる
-        var parser   = new Parser(viewdef);
+        var parser = new Parser(viewdef);
         var viewdata = parser.query();
         plans.add(createPlan(viewdata, tx));
       } else {

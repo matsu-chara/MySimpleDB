@@ -94,7 +94,6 @@ class RecoveryTest {
     var tx5 = modify();
 
     tx3.pin(blk0);
-    var expected3 = expected1; // tx4はrollback済みなので変更されない
     @SuppressWarnings("PointlessArithmeticExpression")
     var actual3 =
         new TestRecord(
@@ -106,7 +105,7 @@ class RecoveryTest {
                 tx3.getInt(blk0, Integer.BYTES * 4),
                 tx3.getInt(blk0, Integer.BYTES * 5)),
             List.of(tx3.getString(blk0, 30)));
-    assertEquals(expected3, actual3);
+    assertEquals(expected1, actual3);
 
     var p = new Page(fm.blockSize());
     fm.read(blk1, p);
