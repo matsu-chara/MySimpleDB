@@ -15,7 +15,7 @@ public class CreateTableData {
     return tblname;
   }
 
-  public Schema sch() {
+  public Schema newSchema() {
     return sch;
   }
 }

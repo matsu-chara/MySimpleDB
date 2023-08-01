@@ -25,7 +25,7 @@ public class BasicQueryPlanner implements QueryPlanner {
         var viewdata = parser.query();
         plans.add(createPlan(viewdata, tx));
       } else {
-        plans.add(new TablePlan(tblname, tx, mdm));
+        plans.add(new TablePlan(tx, tblname, mdm));
       }
     }
 

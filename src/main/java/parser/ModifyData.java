@@ -20,7 +20,7 @@ public class ModifyData {
     return tblname;
   }
 
-  public String fieldname() {
+  public String targetField() {
     return fldname;
   }
 

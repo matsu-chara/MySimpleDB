@@ -14,7 +14,7 @@ public class TablePlan implements Plan {
   private Layout layout;
   private StatInfo si;
 
-  public TablePlan(String tblname, Transaction tx, MetadataMgr md) {
+  public TablePlan(Transaction tx, String tblname, MetadataMgr md) {
     this.tblname = tblname;
     this.tx = tx;
     this.layout = md.getLayout(tblname, tx);

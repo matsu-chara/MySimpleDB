@@ -32,7 +32,7 @@ class ParserTest {
 
     var result = (ModifyData) p.updateCmd();
     assertEquals("t", result.tblname());
-    assertEquals("b", result.fieldname());
+    assertEquals("b", result.targetField());
     assertEquals("a", result.newval().toString());
     assertEquals("b=x and a=1", result.pred().toString());
   }
