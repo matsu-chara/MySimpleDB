@@ -17,7 +17,7 @@ class RecordPageTest {
 
   @AfterEach
   void teardown() {
-    db.fileMgr().deleteDir();
+    db.deleteDB();
   }
 
   @Test

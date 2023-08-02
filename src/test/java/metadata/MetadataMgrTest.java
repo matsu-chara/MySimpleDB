@@ -21,7 +21,7 @@ class MetadataMgrTest {
 
   @AfterEach
   void teardown() {
-    db.fileMgr().deleteDir();
+    db.deleteDB();
   }
 
   @Test

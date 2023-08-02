@@ -63,4 +63,8 @@ public class SimpleDB {
   public BufferMgr bufferMgr() {
     return bm;
   }
+
+  public void deleteDB() {
+    fm.deleteDir();
+  }
 }
