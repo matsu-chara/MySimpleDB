@@ -5,6 +5,11 @@ import file.FileMgr;
 import java.io.File;
 import log.LogMgr;
 import metadata.MetadataMgr;
+import plan.BasicQueryPlanner;
+import plan.BasicUpdatePlanner;
+import plan.Planner;
+import plan.QueryPlanner;
+import plan.UpdatePlanner;
 import tx.Transaction;
 
 public class SimpleDB {
@@ -18,6 +23,8 @@ public class SimpleDB {
   private LogMgr lm;
   private MetadataMgr mdm;
   private static final Object lock = new Object();
+
+  private Planner planner;
 
   public SimpleDB(String dirname, int blocksize, int buffsize) {
     var dbDirectory = new File(dirname);
@@ -36,6 +43,9 @@ public class SimpleDB {
         tx.recover();
       }
       mdm = new MetadataMgr(isNew, tx);
+      QueryPlanner qp = new BasicQueryPlanner(mdm);
+      UpdatePlanner up = new BasicUpdatePlanner(mdm);
+      planner = new Planner(qp, up);
       tx.commit();
     }
   }
@@ -50,6 +60,10 @@ public class SimpleDB {
 
   public MetadataMgr mdMgr() {
     return mdm;
+  }
+
+  public Planner planner() {
+    return planner;
   }
 
   public FileMgr fileMgr() {

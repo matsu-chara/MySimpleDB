@@ -1,11 +1,14 @@
 package plan;
 
+import java.util.Iterator;
 import metadata.MetadataMgr;
 import parser.CreateIndexData;
 import parser.CreateTableData;
 import parser.CreateViewData;
 import parser.DeleteData;
+import parser.InsertData;
 import parser.ModifyData;
+import query.Constant;
 import query.UpdateScan;
 import tx.Transaction;
 
@@ -14,6 +17,21 @@ public class BasicUpdatePlanner implements UpdatePlanner {
 
   public BasicUpdatePlanner(MetadataMgr mdm) {
     this.mdm = mdm;
+  }
+
+  @Override
+  public int executeInsert(InsertData data, Transaction tx) {
+    Plan p = new TablePlan(tx, data.tblname(), mdm);
+    var us = (UpdateScan) p.open();
+    us.insert();
+    Iterator<Constant> iter = data.vals().iterator();
+
+    for (var fldname : data.fields()) {
+      var val = iter.next();
+      us.setVal(fldname, val);
+    }
+    us.close();
+    return 1;
   }
 
   @Override
@@ -58,7 +76,7 @@ public class BasicUpdatePlanner implements UpdatePlanner {
   }
 
   @Override
-  public int executeIndex(CreateIndexData data, Transaction tx) {
+  public int executeCreateIndex(CreateIndexData data, Transaction tx) {
     mdm.createIndex(data.idxname(), data.tblname(), data.fldname(), tx);
     return 0;
   }
