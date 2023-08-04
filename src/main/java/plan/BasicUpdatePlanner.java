@@ -1,6 +1,5 @@
 package plan;
 
-import java.util.Iterator;
 import metadata.MetadataMgr;
 import parser.CreateIndexData;
 import parser.CreateTableData;
@@ -8,7 +7,6 @@ import parser.CreateViewData;
 import parser.DeleteData;
 import parser.InsertData;
 import parser.ModifyData;
-import query.Constant;
 import query.UpdateScan;
 import tx.Transaction;
 
@@ -24,7 +22,7 @@ public class BasicUpdatePlanner implements UpdatePlanner {
     Plan p = new TablePlan(tx, data.tblname(), mdm);
     var us = (UpdateScan) p.open();
     us.insert();
-    Iterator<Constant> iter = data.vals().iterator();
+    var iter = data.vals().iterator();
 
     for (var fldname : data.fields()) {
       var val = iter.next();
