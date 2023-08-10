@@ -25,14 +25,14 @@ public class EmbeddedResultSetMetaData extends ResultSetMetaDataAdapter {
 
   @Override
   public int getColumnType(int column) throws SQLException {
-    String fldname = getColumnName(column);
+    var fldname = getColumnName(column);
     return sch.type(fldname);
   }
 
   public int getColumnDisplaySize(int column) throws SQLException {
-    String fldname = getColumnName(column);
-    int fldtype = sch.type(fldname);
-    int fldlength = (fldtype == INTEGER) ? 6 : sch.length(fldname);
+    var fldname = getColumnName(column);
+    var fldtype = sch.type(fldname);
+    var fldlength = (fldtype == INTEGER) ? 6 : sch.length(fldname);
     return Math.max(fldname.length(), fldlength) + 1;
   }
 }

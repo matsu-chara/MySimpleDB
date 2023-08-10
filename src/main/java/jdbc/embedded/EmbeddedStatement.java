@@ -2,9 +2,7 @@ package jdbc.embedded;
 
 import java.sql.SQLException;
 import jdbc.StatementAdapter;
-import plan.Plan;
 import plan.Planner;
-import tx.Transaction;
 
 public class EmbeddedStatement extends StatementAdapter {
   private EmbeddedConnection conn;
@@ -18,8 +16,8 @@ public class EmbeddedStatement extends StatementAdapter {
   @Override
   public EmbeddedResultSet executeQuery(String qry) throws SQLException {
     try {
-      Transaction tx = conn.getTransaction();
-      Plan pln = planner.createQueryPlan(qry, tx);
+      var tx = conn.getTransaction();
+      var pln = planner.createQueryPlan(qry, tx);
       return new EmbeddedResultSet(pln, conn);
     } catch (RuntimeException e) {
       conn.rollback();
@@ -30,8 +28,8 @@ public class EmbeddedStatement extends StatementAdapter {
   @Override
   public int executeUpdate(String cmd) throws SQLException {
     try {
-      Transaction tx = conn.getTransaction();
-      int result = planner.executeUpdate(cmd, tx);
+      var tx = conn.getTransaction();
+      var result = planner.executeUpdate(cmd, tx);
       conn.commit();
       return result;
     } catch (RuntimeException e) {

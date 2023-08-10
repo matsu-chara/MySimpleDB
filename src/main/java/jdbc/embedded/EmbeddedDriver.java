@@ -8,8 +8,8 @@ import server.SimpleDB;
 public class EmbeddedDriver extends DriverAdapter {
   @Override
   public EmbeddedConnection connect(String url, Properties p) throws SQLException {
-    String dbname = url.replace("jdbc:simpledb:", "");
-    SimpleDB db = new SimpleDB(dbname);
+    var dbname = url.replace("jdbc:simpledb:", "");
+    var db = new SimpleDB(dbname);
     return new EmbeddedConnection(db);
   }
 }
