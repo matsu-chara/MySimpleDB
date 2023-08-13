@@ -3,15 +3,16 @@ package jdbc.network;
 import static java.sql.Types.INTEGER;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import record.Schema;
 
-public class RemoteMetaDataImpl implements RemoteMetaData {
+public class RemoteMetaDataImpl extends UnicastRemoteObject implements RemoteMetaData {
   private Schema sch;
   private List<String> fields = new ArrayList<>();
 
-  public RemoteMetaDataImpl(Schema sch) {
+  public RemoteMetaDataImpl(Schema sch) throws RemoteException {
     this.sch = sch;
     fields.addAll(sch.fields());
   }
