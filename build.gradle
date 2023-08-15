@@ -12,6 +12,10 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
+tasks.withType(JavaCompile) {
+    options.deprecation = true
+}
+
 test {
     useJUnitPlatform()
     testLogging {

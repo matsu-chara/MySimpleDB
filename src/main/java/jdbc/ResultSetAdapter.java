@@ -79,6 +79,7 @@ public class ResultSetAdapter implements ResultSet {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
     throw new SQLException("operation not implemented");
   }
@@ -109,6 +110,7 @@ public class ResultSetAdapter implements ResultSet {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public InputStream getUnicodeStream(int columnIndex) throws SQLException {
     throw new SQLException("operation not implemented");
   }
@@ -159,6 +161,7 @@ public class ResultSetAdapter implements ResultSet {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public BigDecimal getBigDecimal(String columnLabel, int scale) throws SQLException {
     throw new SQLException("operation not implemented");
   }
@@ -189,6 +192,7 @@ public class ResultSetAdapter implements ResultSet {
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public InputStream getUnicodeStream(String columnLabel) throws SQLException {
     throw new SQLException("operation not implemented");
   }
