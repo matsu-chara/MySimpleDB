@@ -9,15 +9,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import jdbc.embedded.EmbeddedDriver;
+import jdbc.network.NetworkDriver;
 import parser.BadSyntaxException;
 
-public class EmbeddedJdbcMain {
+public class JdbcMain {
   public static void main(String[] args) {
-    var dirname = (args.length == 0) ? "studentdb" : args[0];
-    var url = "jdbc:simpledb:" + dirname;
+    var sc = new Scanner(System.in);
+    System.out.println("for embedded server:  jdbc:simpledb:studentdb");
+    System.out.println("for remote server:  jdbc:simpledb://localhost");
+    System.out.println("Connect> ");
+    var s = sc.nextLine().trim();
+    Driver d = (s.contains("//")) ? new NetworkDriver() : new EmbeddedDriver();
 
-    Driver d = new EmbeddedDriver();
-    try (var conn = d.connect(url, null)) {
+    try (var conn = d.connect(s, null);
+        var stmt = conn.createStatement()) {
       initTables(conn);
       insertStudents(conn, 5);
       startInteractiveSqlShell(conn);
@@ -51,13 +56,16 @@ public class EmbeddedJdbcMain {
     System.out.print("Enter an SQL statement> ");
     var sc = new Scanner(System.in);
     while (sc.hasNext()) {
-      var sql = sc.nextLine(); // select sid, sname from student がおすすめ
+      var sql = sc.nextLine().trim(); // select sid, sname from student がおすすめ
       try {
-        if (sql.startsWith("select")) {
+        if (sql.startsWith("exit")) {
+          break;
+        } else if (sql.startsWith("select")) {
           var rs = stmt.executeQuery(sql);
           print(rs);
         } else {
-          stmt.executeUpdate(sql);
+          var result = stmt.executeUpdate(sql);
+          System.out.println(result + " records processed.");
         }
       } catch (SQLException e) {
         if (e.getCause() instanceof BadSyntaxException) {

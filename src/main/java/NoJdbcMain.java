@@ -3,7 +3,7 @@ import parser.BadSyntaxException;
 import parser.Parser;
 import server.SimpleDB;
 
-public class Main {
+public class NoJdbcMain {
   public static void main(String[] args) {
     var dirname = (args.length == 0) ? "studentdb" : args[0];
     var db = new SimpleDB(dirname);
