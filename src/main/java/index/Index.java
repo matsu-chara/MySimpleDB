@@ -4,15 +4,15 @@ import query.Constant;
 import record.RID;
 
 public interface Index {
-  void beforeFirst(Constant searchkey);
+  public void beforeFirst(Constant searchkey);
 
-  void next();
+  public boolean next();
 
-  RID getRid();
+  public RID getRid();
 
-  void insert(Constant dataval, RID datarid);
+  public void insert(Constant dataval, RID datarid);
 
-  void delete(Constant dataval, RID datarid);
+  public void delete(Constant dataval, RID datarid);
 
-  void close();
+  public void close();
 }
