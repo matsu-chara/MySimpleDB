@@ -63,7 +63,7 @@ public class BTreeIndex implements Index {
   }
 
   @Override
-  public RID getRid() {
+  public RID getDataRid() {
     return leaf.getDataRid();
   }
 

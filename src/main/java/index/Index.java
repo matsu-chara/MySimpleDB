@@ -8,7 +8,7 @@ public interface Index {
 
   public boolean next();
 
-  public RID getRid();
+  public RID getDataRid();
 
   public void insert(Constant dataval, RID datarid);
 

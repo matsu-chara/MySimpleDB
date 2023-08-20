@@ -41,7 +41,7 @@ public class HashIndex implements Index {
   }
 
   @Override
-  public RID getRid() {
+  public RID getDataRid() {
     var blknum = ts.getInt("block");
     var id = ts.getInt("id");
     return new RID(blknum, id);
@@ -60,7 +60,7 @@ public class HashIndex implements Index {
   public void delete(Constant dataval, RID datarid) {
     beforeFirst(dataval);
     while (next()) {
-      if (getRid().equals(datarid)) {
+      if (getDataRid().equals(datarid)) {
         ts.delete();
         return;
       }
