@@ -65,13 +65,13 @@ class MetadataMgrTest {
     var idxmap = mdm.getIndexInfo("MyTable", tx);
 
     var iiA = idxmap.get("A");
-    assertEquals(-1, iiA.blocksAccessed());
+    assertEquals(0, iiA.blocksAccessed());
     assertEquals(3, iiA.recordsOutput());
     assertEquals(1, iiA.distinctValues("A"));
     assertEquals(16, iiA.distinctValues("B"));
 
     var iiB = idxmap.get("B");
-    assertEquals(-1, iiB.blocksAccessed());
+    assertEquals(0, iiB.blocksAccessed());
     assertEquals(3, iiB.recordsOutput());
     assertEquals(16, iiB.distinctValues("A"));
     assertEquals(1, iiB.distinctValues("B"));

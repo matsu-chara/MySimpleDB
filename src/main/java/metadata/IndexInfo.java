@@ -3,6 +3,7 @@ package metadata;
 import static java.sql.Types.INTEGER;
 
 import index.Index;
+import index.has.HashIndex;
 import record.Layout;
 import record.Schema;
 import tx.Transaction;
@@ -24,13 +25,15 @@ public class IndexInfo {
   }
 
   public Index open() {
-    return null; // TODO
+    return new HashIndex(tx, idxname, idxLayout);
+    //    return new BTreeIndex(tx, idxname, idxLayout);
   }
 
   public int blocksAccessed() {
     var rpb = tx.blockSize() / idxLayout.slotsize();
     var numblocks = si.recordsOutput() / rpb;
-    return -1; // TODO
+    return HashIndex.searchCost(numblocks, rpb);
+    //    return BTreeIndex.searchCost(numblocks, rpb)
   }
 
   public int recordsOutput() {

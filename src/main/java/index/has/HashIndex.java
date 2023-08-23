@@ -19,6 +19,7 @@ public class HashIndex implements Index {
     this.tx = tx;
     this.idxname = idxname;
     this.layout = layout;
+    System.out.println("hash created!");
   }
 
   @Override
@@ -72,5 +73,9 @@ public class HashIndex implements Index {
     if (ts != null) {
       ts.close();
     }
+  }
+
+  public static int searchCost(int numblocks, int rpb) {
+    return numblocks / HashIndex.NUM_BUCKETS;
   }
 }
