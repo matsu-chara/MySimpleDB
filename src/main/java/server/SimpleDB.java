@@ -2,11 +2,11 @@ package server;
 
 import buffer.BufferMgr;
 import file.FileMgr;
+import index.planner.IndexUpdatePlanner;
 import java.io.File;
 import log.LogMgr;
 import metadata.MetadataMgr;
 import plan.BasicQueryPlanner;
-import plan.BasicUpdatePlanner;
 import plan.Planner;
 import plan.QueryPlanner;
 import plan.UpdatePlanner;
@@ -44,7 +44,8 @@ public class SimpleDB {
       }
       mdm = new MetadataMgr(isNew, tx);
       QueryPlanner qp = new BasicQueryPlanner(mdm);
-      UpdatePlanner up = new BasicUpdatePlanner(mdm);
+      //      UpdatePlanner up = new BasicUpdatePlanner(mdm);
+      UpdatePlanner up = new IndexUpdatePlanner(mdm);
       planner = new Planner(qp, up);
       tx.commit();
     }

@@ -14,6 +14,7 @@ public class IndexSelectScan implements Scan {
     this.ts = ts;
     this.idx = idx;
     this.val = val;
+    beforeFirst();
   }
 
   @Override
