@@ -11,11 +11,11 @@ public class MetadataMgr {
   private static StatMgr statmgr;
   private static IndexMgr idxmgr;
 
-  public MetadataMgr(boolean isNew, Transaction tx) {
+  public MetadataMgr(boolean isNew, Transaction tx, IndexInfo.IndexMode indexMode) {
     tblmgr = new TableMgr(isNew, tx);
     viewMgr = new ViewMgr(isNew, tblmgr, tx);
     statmgr = new StatMgr(tblmgr, tx);
-    idxmgr = new IndexMgr(isNew, tblmgr, statmgr, tx);
+    idxmgr = new IndexMgr(isNew, tblmgr, statmgr, tx, indexMode);
   }
 
   public void createTable(String tblname, Schema sch, Transaction tx) {

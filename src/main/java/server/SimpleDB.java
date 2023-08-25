@@ -5,6 +5,7 @@ import file.FileMgr;
 import index.planner.IndexUpdatePlanner;
 import java.io.File;
 import log.LogMgr;
+import metadata.IndexInfo;
 import metadata.MetadataMgr;
 import plan.BasicQueryPlanner;
 import plan.Planner;
@@ -26,7 +27,7 @@ public class SimpleDB {
 
   private Planner planner;
 
-  public SimpleDB(String dirname, int blocksize, int buffsize) {
+  public SimpleDB(String dirname, int blocksize, int buffsize, IndexInfo.IndexMode indexMode) {
     var dbDirectory = new File(dirname);
 
     synchronized (lock) {
@@ -42,7 +43,7 @@ public class SimpleDB {
         System.out.println("recovering existing database");
         tx.recover();
       }
-      mdm = new MetadataMgr(isNew, tx);
+      mdm = new MetadataMgr(isNew, tx, indexMode);
       QueryPlanner qp = new BasicQueryPlanner(mdm);
       //      UpdatePlanner up = new BasicUpdatePlanner(mdm);
       UpdatePlanner up = new IndexUpdatePlanner(mdm);
@@ -51,8 +52,12 @@ public class SimpleDB {
     }
   }
 
+  public SimpleDB(String dirname, int blocksize, int buffsize) {
+    this(dirname, blocksize, buffsize, IndexInfo.IndexMode.Hash);
+  }
+
   public SimpleDB(String dirname) {
-    this(dirname, BLOCK_SIZE, BUFFER_SIZE);
+    this(dirname, BLOCK_SIZE, BUFFER_SIZE, IndexInfo.IndexMode.Hash);
   }
 
   public Transaction newTx() {

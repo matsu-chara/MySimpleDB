@@ -16,7 +16,7 @@ class MetadataMgrTest {
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_metadata_mgr", 400, 8);
+    db = new SimpleDB("test_metadata_mgr", 400, 8, IndexInfo.IndexMode.Hash);
   }
 
   @AfterEach
@@ -27,7 +27,7 @@ class MetadataMgrTest {
   @Test
   void test() {
     var tx = db.newTx();
-    var mdm = new MetadataMgr(true, tx);
+    var mdm = new MetadataMgr(true, tx, IndexInfo.IndexMode.Hash);
 
     var sch = new Schema();
     sch.addIntField("A");
@@ -65,13 +65,13 @@ class MetadataMgrTest {
     var idxmap = mdm.getIndexInfo("MyTable", tx);
 
     var iiA = idxmap.get("A");
-    assertEquals(0, iiA.blocksAccessed());
+    assertEquals(1, iiA.blocksAccessed());
     assertEquals(3, iiA.recordsOutput());
     assertEquals(1, iiA.distinctValues("A"));
     assertEquals(16, iiA.distinctValues("B"));
 
     var iiB = idxmap.get("B");
-    assertEquals(0, iiB.blocksAccessed());
+    assertEquals(1, iiB.blocksAccessed());
     assertEquals(3, iiB.recordsOutput());
     assertEquals(16, iiB.distinctValues("A"));
     assertEquals(1, iiB.distinctValues("B"));

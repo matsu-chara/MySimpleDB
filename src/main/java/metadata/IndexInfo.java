@@ -3,6 +3,7 @@ package metadata;
 import static java.sql.Types.INTEGER;
 
 import index.Index;
+import index.bree.BTreeIndex;
 import index.has.HashIndex;
 import record.Layout;
 import record.Schema;
@@ -14,8 +15,20 @@ public class IndexInfo {
   private Schema tblSchema;
   private Layout idxLayout;
   private StatInfo si;
+  private IndexMode mode;
 
-  public IndexInfo(String idxname, String fldname, Transaction tx, Schema tblSchema, StatInfo si) {
+  public enum IndexMode {
+    Hash,
+    BTree
+  }
+
+  public IndexInfo(
+      String idxname,
+      String fldname,
+      Transaction tx,
+      Schema tblSchema,
+      StatInfo si,
+      IndexMode mode) {
     this.idxname = idxname;
     this.fldname = fldname;
     this.tx = tx;
@@ -25,15 +38,21 @@ public class IndexInfo {
   }
 
   public Index open() {
-    return new HashIndex(tx, idxname, idxLayout);
-    //    return new BTreeIndex(tx, idxname, idxLayout);
+    if (mode == IndexMode.Hash) {
+      return new HashIndex(tx, idxname, idxLayout);
+    } else {
+      return new BTreeIndex(tx, idxname, idxLayout);
+    }
   }
 
   public int blocksAccessed() {
     var rpb = tx.blockSize() / idxLayout.slotsize();
     var numblocks = si.recordsOutput() / rpb;
-    return HashIndex.searchCost(numblocks, rpb);
-    //    return BTreeIndex.searchCost(numblocks, rpb)
+    if (mode == IndexMode.Hash) {
+      return HashIndex.searchCost(numblocks, rpb);
+    } else {
+      return BTreeIndex.searchCost(numblocks, rpb);
+    }
   }
 
   public int recordsOutput() {

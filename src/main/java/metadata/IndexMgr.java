@@ -14,7 +14,14 @@ public class IndexMgr {
   private TableMgr tblmgr;
   private StatMgr statmgr;
 
-  public IndexMgr(boolean isNew, TableMgr tblmgr, StatMgr statmgr, Transaction tx) {
+  private IndexInfo.IndexMode indexMode;
+
+  public IndexMgr(
+      boolean isNew,
+      TableMgr tblmgr,
+      StatMgr statmgr,
+      Transaction tx,
+      IndexInfo.IndexMode indexMode) {
     if (isNew) {
       var sch = new Schema();
       sch.addStringField("indexname", MAX_NAME);
@@ -25,6 +32,7 @@ public class IndexMgr {
 
     this.tblmgr = tblmgr;
     this.statmgr = statmgr;
+    this.indexMode = indexMode;
     layout = tblmgr.getLayout("idxcat", tx);
   }
 
@@ -46,7 +54,7 @@ public class IndexMgr {
         var fldname = ts.getString("fieldname");
         var tblLayout = tblmgr.getLayout(tblname, tx);
         var tblsi = statmgr.getStatInfo(tblname, tblLayout, tx);
-        var ii = new IndexInfo(idxname, fldname, tx, tblLayout.schema(), tblsi);
+        var ii = new IndexInfo(idxname, fldname, tx, tblLayout.schema(), tblsi, indexMode);
         result.put(fldname, ii);
       }
     }
