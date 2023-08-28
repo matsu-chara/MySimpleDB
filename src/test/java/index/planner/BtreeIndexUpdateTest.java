@@ -14,13 +14,13 @@ import query.UpdateScan;
 import record.Schema;
 import server.SimpleDB;
 
-public class HashIndexUpdateTest {
+public class BtreeIndexUpdateTest {
   private SimpleDB db;
   private MetadataMgr mdm;
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_index_join_update_planner_hash", 400, 8, IndexInfo.IndexMode.Hash);
+    db = new SimpleDB("test_index_join_update_planner_hash", 400, 8, IndexInfo.IndexMode.BTree);
     mdm = db.mdMgr();
 
     var tx = db.newTx();

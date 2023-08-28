@@ -13,13 +13,13 @@ import query.UpdateScan;
 import record.Schema;
 import server.SimpleDB;
 
-public class HashIndexRetrievalTest {
+public class BtreeIndexRetrievalTest {
   private SimpleDB db;
   private MetadataMgr mdm;
 
   @BeforeEach
   void setup() {
-    db = new SimpleDB("test_index_join_planner_hash", 400, 8, IndexInfo.IndexMode.Hash);
+    db = new SimpleDB("test_index_join_planner_btree", 400, 8, IndexInfo.IndexMode.BTree);
     mdm = db.mdMgr();
 
     var tx = db.newTx();
