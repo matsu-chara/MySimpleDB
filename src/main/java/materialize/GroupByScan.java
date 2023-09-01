@@ -75,12 +75,7 @@ public class GroupByScan implements Scan {
     if (groupfields.contains(fldname)) {
       return true;
     }
-    for (var fn : aggfns) {
-      if (fn.fieldName().equals(fldname)) {
-        return true;
-      }
-    }
-    return false;
+    return aggfns.stream().anyMatch(fn -> fn.fieldName().equals(fldname));
   }
 
   @Override

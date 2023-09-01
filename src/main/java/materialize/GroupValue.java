@@ -36,10 +36,7 @@ public class GroupValue {
   }
 
   public int hashCode() {
-    var hashval = 0;
-    for (var c : vals.values()) {
-      hashval += c.hashCode();
-    }
+    var hashval = vals.values().stream().mapToInt(Constant::hashCode).sum();
     return hashval;
   }
 }

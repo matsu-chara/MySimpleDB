@@ -95,8 +95,8 @@ public class SortPlan implements Plan {
     var result = new TempTable(tx, sch);
     var dest = result.open();
 
-    boolean hasmore1 = src1.next();
-    boolean hasmore2 = src2.next();
+    var hasmore1 = src1.next();
+    var hasmore2 = src2.next();
     while (hasmore1 && hasmore2) {
       if (comp.compare(src1, src2) < 0) {
         hasmore1 = copy(src1, dest);
