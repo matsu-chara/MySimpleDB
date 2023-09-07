@@ -5,6 +5,7 @@ import static java.sql.Types.INTEGER;
 import file.BlockId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 import query.Constant;
 import query.Scan;
 import record.Layout;
@@ -26,10 +27,12 @@ public class ChunkScan implements Scan {
     this.layout = layout;
     this.startbnum = startbnum;
     this.endbnum = endbnum;
-    for (var i = startbnum; i <= endbnum; i++) {
-      var blk = new BlockId(filename, i);
-      buffs.add(new RecordPage(tx, blk, layout));
-    }
+    IntStream.range(startbnum, endbnum + 1)
+        .forEach(
+            i -> {
+              var blk = new BlockId(filename, i);
+              buffs.add(new RecordPage(tx, blk, layout));
+            });
     moveToBlock(startbnum);
   }
 
