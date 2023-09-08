@@ -28,11 +28,8 @@ public class ChunkScan implements Scan {
     this.startbnum = startbnum;
     this.endbnum = endbnum;
     IntStream.range(startbnum, endbnum + 1)
-        .forEach(
-            i -> {
-              var blk = new BlockId(filename, i);
-              buffs.add(new RecordPage(tx, blk, layout));
-            });
+        .mapToObj(i -> new BlockId(filename, i))
+        .forEach(blk -> buffs.add(new RecordPage(tx, blk, layout)));
     moveToBlock(startbnum);
   }
 
